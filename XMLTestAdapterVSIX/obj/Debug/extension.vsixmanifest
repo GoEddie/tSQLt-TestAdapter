@@ -1,0 +1,19 @@
+<PackageManifest Version="2.0.0" xmlns="http://schemas.microsoft.com/developer/vsx-schema/2011">
+  <Metadata>
+    <Identity Id="AgileSQLClub.tSQLtTestAdapter" Version="0.1" Language="en-US" Publisher="EdElliott" />
+    <DisplayName>tSQLt Test Adapter</DisplayName>
+    <Description xml:space="preserve">Unit Test Adapter for XML files</Description>
+  </Metadata>
+  <Installation>
+    <InstallationTarget Id="Microsoft.VisualStudio.Pro" Version="11.0" />
+    <InstallationTarget Version="[11.0,12.0)" Id="Microsoft.VisualStudio.Ultimate" />
+    <InstallationTarget Version="[11.0,12.0)" Id="Microsoft.VisualStudio.Premium" />
+  </Installation>
+  <Dependencies>
+    <Dependency Id="Microsoft.Framework.NDP" DisplayName="Microsoft .NET Framework" Version="4.5" />
+  </Dependencies>
+  <Assets>
+    <Asset Type="Microsoft.VisualStudio.MefComponent" Path="XmlTestAdapter.dll" />
+    <Asset Type="UnitTestExtension" Path="XmlTestAdapter.dll" />
+  </Assets>
+</PackageManifest>

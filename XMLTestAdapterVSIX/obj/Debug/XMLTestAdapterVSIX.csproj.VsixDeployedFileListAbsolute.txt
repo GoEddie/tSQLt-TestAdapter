@@ -1,0 +1,13 @@
+C:\Users\edell\AppData\Local\Microsoft\VisualStudio\14.0Exp\Extensions\EdElliott\tSQLt Test Adapter\0.1\\tSQLtTestAdapter.dll
+C:\Users\edell\AppData\Local\Microsoft\VisualStudio\14.0Exp\Extensions\EdElliott\tSQLt Test Adapter\0.1\\extension.vsixmanifest
+C:\Users\edell\AppData\Local\Microsoft\VisualStudio\14.0Exp\Extensions\EdElliott\tSQLt Test Adapter\0.1\\Microsoft.VisualStudio.TestPlatform.ObjectModel.dll
+C:\Users\edell\AppData\Local\Microsoft\VisualStudio\14.0Exp\Extensions\EdElliott\tSQLt Test Adapter\0.1\\Microsoft.VisualStudio.TestWindow.Core.dll
+C:\Users\edell\AppData\Local\Microsoft\VisualStudio\14.0Exp\Extensions\EdElliott\tSQLt Test Adapter\0.1\\Microsoft.VisualStudio.TestWindow.dll
+C:\Users\edell\AppData\Local\Microsoft\VisualStudio\14.0Exp\Extensions\EdElliott\tSQLt Test Adapter\0.1\\Microsoft.VisualStudio.TestWindow.Interfaces.dll
+C:\Users\edell\AppData\Local\Microsoft\VisualStudio\14.0Exp\Extensions\EdElliott\tSQLt Test Adapter\0.1\\msdia140typelib_clr0200.dll
+C:\Users\edell\AppData\Local\Microsoft\VisualStudio\14.0Exp\Extensions\EdElliott\tSQLt Test Adapter\0.1\\Microsoft.VisualStudio.TestPlatform.Utilities.PhoneAppContainer.dll
+C:\Users\edell\AppData\Local\Microsoft\VisualStudio\14.0Exp\Extensions\EdElliott\tSQLt Test Adapter\0.1\\EntityFramework.dll
+C:\Users\edell\AppData\Local\Microsoft\VisualStudio\14.0Exp\Extensions\EdElliott\tSQLt Test Adapter\0.1\\Microsoft.VisualStudio.TestPlatform.Utilities.dll
+C:\Users\edell\AppData\Local\Microsoft\VisualStudio\14.0Exp\Extensions\EdElliott\tSQLt Test Adapter\0.1\\tSQLtTestAdapter.pdb
+C:\Users\edell\AppData\Local\Microsoft\VisualStudio\14.0Exp\Extensions\EdElliott\tSQLt Test Adapter\0.1\\XmlTestAdapter.dll
+C:\Users\edell\AppData\Local\Microsoft\VisualStudio\14.0Exp\Extensions\EdElliott\tSQLt Test Adapter\0.1\\XmlTestAdapter.pdb
