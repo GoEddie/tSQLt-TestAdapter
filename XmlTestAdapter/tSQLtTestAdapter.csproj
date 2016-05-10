@@ -61,6 +61,7 @@
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -77,10 +78,10 @@
     <Compile Include="Helpers\TestFileChangedEventArgs.cs" />
     <Compile Include="Helpers\TestFilesUpdateWatcher.cs" />
     <Compile Include="Helpers\VsSolutionHelper.cs" />
-    <Compile Include="XmlTestContainer.cs" />
-    <Compile Include="XmlTestContainerDiscoverer.cs" />
-    <Compile Include="XmlTestExecutor.cs" />
-    <Compile Include="XmlTestDiscoverer.cs" />
+    <Compile Include="tSQLtTestContainer.cs" />
+    <Compile Include="tSQLtTestContainerDiscoverer.cs" />
+    <Compile Include="tSQLtTestExecutor.cs" />
+    <Compile Include="tSQLtTestDiscoverer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
