@@ -30,7 +30,7 @@ namespace UnitTests
                             , @level0name = N'MyUnitSchema';";
 
             var scanner = new FileScanner(parser);
-            scanner.ScanCode(script, new List<TestClass>());
+            scanner.ScanCode(script, new ScanResults());
         }
         [Test]
 
@@ -43,7 +43,7 @@ namespace UnitTests
                             , @level0name = N'MyUnitSchema';";
 
             var scanner = new FileScanner(_parser);
-            scanner.ScanCode(script, new List<TestClass>());
+            scanner.ScanCode(script, new ScanResults());
         }
 
 

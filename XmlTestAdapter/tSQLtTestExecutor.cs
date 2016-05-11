@@ -12,7 +12,7 @@ namespace tSQLtTestAdapter
         public void RunTests(IEnumerable<string> sources, IRunContext runContext,
             IFrameworkHandle frameworkHandle)
         {
-            IEnumerable<TestCase> tests = tSQLtTestDiscoverer.GetTests(sources, null);
+            IEnumerable<TestCase> tests = XmlTestDiscoverer.GetTests(sources, null);
             RunTests(tests, runContext, frameworkHandle);
         }
 
@@ -47,6 +47,7 @@ namespace tSQLtTestAdapter
     public static class Constants
     {
         public const string ExecutorUriString = "executor://tSQLtTestExecutor/v1";
+        public const string FileExtension = ".sql";
 
     }
 }

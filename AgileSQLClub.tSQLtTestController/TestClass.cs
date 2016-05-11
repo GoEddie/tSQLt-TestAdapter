@@ -17,9 +17,9 @@ namespace AgileSQLClub.tSQLtTestController
             _parser = parser;
         }
 
-        public ScanResults ScanCode(string code, List<TestClass> existingClasses)
+        public ScanResults ScanCode(string code, ScanResults results)
         {
-            var results = new ScanResults();
+            
             var batches = code.Split(new[] {"\r\nGO\r\n", "\nGO\n"}, StringSplitOptions.None);
 
             foreach (var batch in batches)
@@ -153,27 +153,42 @@ namespace AgileSQLClub.tSQLtTestController
 
     public class TestFinder
     {
+        private readonly TSqlParser _parser;
+        private readonly List<string> _filePaths;
         private readonly string _lookupPath;
 
-        public TestFinder(string lookupPath, TestClasses testClasses)
+        public TestFinder(TSqlParser parser, List<string> filePaths)
         {
-            _lookupPath = lookupPath;
-
-
-
-            /*
-             * what we need is a list of any schema that has the extended property set and also a list of procedure schemas/names
-             * 
-             * if we add or remove a schema with the right attribute then we need to create or remove test cases
-             * 
-             *  i thik we already have caching on the file level so shouldnt have to do that again. 
-             * 
-             * 
-             * */
-
-
+            _parser = parser;
+            _filePaths = filePaths;
         }
-        
+
+        public List<TestClass> GetTests()
+        {
+            var classes = new List<TestClass>();
+            var results = new ScanResults();
+
+            foreach (var path in _filePaths)
+            {
+                var scanner= new FileScanner(_parser);
+                results = scanner.ScanCode(File.ReadAllText(path), results);
+            }
+
+            var foundClasses =
+                results.FoundClasses.Where(
+                    p =>
+                        results.FoundPotentialTests.Any(
+                            e => String.Equals(p.Name, e.Name.Schema, StringComparison.OrdinalIgnoreCase)));
+
+            var foundTests =
+                results.FoundPotentialTests.Where(
+                    p =>
+                        results.FoundPotentialTests.Any(
+                            s => String.Equals(s.Name.Schema, p.Name.Schema, StringComparison.OrdinalIgnoreCase)));
+
+            return classes;
+        }
+
     }
 
     public class TestClasses

@@ -24,7 +24,7 @@ namespace tSQLtTestAdapter
         private ITestFileAddRemoveListener testFilesAddRemoveListener;
         private bool initialContainerSearch;
         private readonly List<ITestContainer> cachedContainers;
-        protected string FileExtension { get { return ".sql"; } }
+        protected string FileExtension { get { return Constants.FileExtension; } }
         public Uri ExecutorUri { get { return new System.Uri(Constants.ExecutorUriString); } }
         public IEnumerable<ITestContainer> TestContainers   {get { return GetTestContainers(); }   }
 
@@ -53,7 +53,7 @@ namespace tSQLtTestAdapter
             this.solutionListener.SolutionUnloaded += SolutionListenerOnSolutionUnloaded;
             this.solutionListener.SolutionProjectChanged += OnSolutionProjectChanged;
             this.solutionListener.StartListeningForChanges();
-
+            logger.Log(MessageLevel.Error, "jhjhjhjhjh");
             this.testFilesUpdateWatcher.FileChangedEvent += OnProjectItemChanged;
         }
 

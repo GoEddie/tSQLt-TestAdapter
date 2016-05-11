@@ -74,8 +74,8 @@ namespace tSQLtTestAdapter
             {
                 return result;
             }
-
-            return this.timeStamp.CompareTo(testContainer.timeStamp);
+            return -1;
+          //  return this.timeStamp.CompareTo(testContainer.timeStamp);
         }
 
         public ITestContainer Snapshot()

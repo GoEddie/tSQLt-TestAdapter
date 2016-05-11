@@ -1,9 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 using System.Xml;
+using AgileSQLClub.tSQLtTestController;
+using Microsoft.SqlServer.TransactSql.ScriptDom;
 using Microsoft.VisualStudio;
 using Microsoft.VisualStudio.TestPlatform.ObjectModel;
 using Microsoft.VisualStudio.TestPlatform.ObjectModel.Adapter;
@@ -14,58 +17,121 @@ namespace tSQLtTestAdapter
 {
   
     [DefaultExecutorUri(Constants.ExecutorUriString)]
-    [FileExtension(".sql")]
-    public class tSQLtTestDiscoverer : ITestDiscoverer
+    [FileExtension(Constants.FileExtension)]
+    public class XmlTestDiscoverer : ITestDiscoverer
     {
+        private static readonly  object _lock = new object();
+
         public void DiscoverTests(IEnumerable<string> sources, IDiscoveryContext discoveryContext,
             IMessageLogger logger, ITestCaseDiscoverySink discoverySink)
         {
-            Trace.WriteLine("ksjkjskjsakjs");
-            GetTests(sources, discoverySink);
+            lock (_lock)
+            {
+                //System.Diagnostics.Debugger.Launch();
+                Trace.WriteLine("ksjkjskjsakjs");
+                GetTests(sources, discoverySink);
+            }
         }
+        static TestCache _tests = new TestCache();
 
         public static List<TestCase> GetTests(IEnumerable<string> sources, ITestCaseDiscoverySink discoverySink)
         {
-            MessageBox.Show("lklkkl" + sources.Count());
-            List<TestCase> tests = new List<TestCase>();
-            foreach (string source in sources)
+            lock (_lock)
             {
-
-                //XmlDocument doc = new XmlDocument();
-                //doc.Load(source);
-
-                //var testNodes = doc.SelectNodes("//Tests/Test");
-                //foreach (XmlNode testNode in testNodes)
-                //{
-                //    XmlAttribute nameAttribute = testNode.Attributes["name"];
-                //    if (nameAttribute != null && !string.IsNullOrWhiteSpace(nameAttribute.Value))
-                //    {
-                //        var testcase = new TestCase(nameAttribute.Value, tSQLtTestExecutor.ExecutorUri, source)
-                //            {
-                //                CodeFilePath = source,
-                //            };
-
-                var testCase = new TestCase("Datbase.Schema.test sgsgsgsgs", tSQLtTestExecutor.ExecutorUri, source);
-                tests.Add(testCase);
-
-                if (discoverySink != null)
+                List<TestCase> tests = new List<TestCase>();
+                foreach (string source in sources)
                 {
-                    discoverySink.SendTestCase(testCase);
+                    _tests.AddPath(source);
                 }
-                //else
-                //        {
-                //            XmlAttribute outcomeAttibute = testNode.Attributes["outcome"];
-                //            TestOutcome outcome;
-                //            Enum.TryParse<TestOutcome>(outcomeAttibute.Value, out outcome);
-                //            testcase.SetPropertyValue(TestResultProperties.Outcome, outcome);
-                //        }
-                //        tests.Add(testcase);
-                //    }
 
-                    //}
+                var testInCode = _tests.GetTests();
+                foreach (var testClass in testInCode)
+                {
+                    foreach (var test in testClass.Tests)
+                    {
+                        var source = sources.FirstOrDefault();
 
+                        var testCase = new TestCase(string.Format("{0}.{1}", testClass.Name, test.Name), tSQLtTestExecutor.ExecutorUri, source);
+                        if (discoverySink != null)
+                        {
+                            discoverySink.SendTestCase(testCase);
+                        }
+                    }
+                }
+
+                return tests;
             }
-            return tests;
         }
     }
+
+    public class TestCache
+    {
+       private FileScanner _scanner = new FileScanner(new TSql130Parser(false));
+       
+
+        public void AddPath(string path)
+        {
+           
+            var date = File.GetLastWriteTimeUtc(path);
+            if (!_dateCache.ContainsKey(path) || date <= _dateCache[path])
+            {
+                _results = _scanner.ScanCode(File.ReadAllText(path), _results);
+                _haveChanges = true;
+            }
+        }
+
+        private readonly Dictionary<string, DateTime> _dateCache = new Dictionary<string, DateTime>();
+        private ScanResults _results = new ScanResults();
+        private bool _haveChanges = true;
+        private List<TestClass> _tests = new List<TestClass>();
+
+        public List<TestClass> GetTests()
+        {
+            if (!_haveChanges)
+            {
+                return _tests;
+            }
+
+            var classes = new List<TestClass>();
+
+
+            var foundClasses =
+              _results.FoundClasses.Where(
+                  p =>
+                      _results.FoundPotentialTests.Any(
+                          e => String.Equals(p.Name, e.Name.Schema, StringComparison.OrdinalIgnoreCase)));
+
+            var foundTests =
+                _results.FoundPotentialTests.Where(
+                    p =>
+                        _results.FoundPotentialTests.Any(
+                            s => String.Equals(s.Name.Schema, p.Name.Schema, StringComparison.OrdinalIgnoreCase)));
+
+            _tests.Clear();
+
+            foreach (var cls in foundClasses)
+            {
+                var testClass = new TestClass();
+                testClass.Name = cls.Name;
+                //testClass.Tests =
+                foreach (
+                    var test in
+                        foundTests.Where(p => String.Equals(p.Name.Schema, cls.Name, StringComparison.OrdinalIgnoreCase))
+                    )
+                {
+                    testClass.Tests.Add(new Test() {Name = test.Name.Object});
+                }
+             
+                if(testClass.Tests.Count > 0)
+                    _tests.Add(testClass);
+                           
+            }
+            
+
+            return _tests;
+        }
+
+    }
+
+   
 }
