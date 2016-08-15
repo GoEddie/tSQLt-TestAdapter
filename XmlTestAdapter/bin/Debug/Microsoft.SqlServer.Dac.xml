@@ -90,6 +90,165 @@
             If there is a problem reading the package; or if the package does not contain exported data.
             </exception>
         </member>
+        <member name="T:Microsoft.SqlServer.Dac.KeyVault.DacKeyVaultService">
+            <summary>
+            Provides a service for discovering and configuring a <see cref="T:Microsoft.SqlServer.Dac.KeyVault.KeyVaultAuthenticator"/> to handle key vault access requests.
+            These requests will occur during deployment if an encrypted table is being altered. It also supports initialization of general 
+            key vault support in an application
+            </summary>
+        </member>
+        <member name="M:Microsoft.SqlServer.Dac.KeyVault.DacKeyVaultService.SetExtensionProperties(Microsoft.SqlServer.Dac.Extensibility.ExtensionProperties)">
+            <summary>
+            Internal for testing purposes only
+            </summary>
+        </member>
+        <member name="M:Microsoft.SqlServer.Dac.KeyVault.DacKeyVaultService.SetDependencyManager(Microsoft.SqlServer.Dac.Extensibility.IDependencyManager)">
+            <summary>
+            Internal for testing purposes only.
+            </summary>
+        </member>
+        <member name="M:Microsoft.SqlServer.Dac.KeyVault.DacKeyVaultService.UpdateAuthInfo(Microsoft.SqlServer.Dac.KeyVault.KeyVaultAuthInfoBase)">
+            <summary>
+            Passes a <see cref="T:Microsoft.SqlServer.Dac.KeyVault.KeyVaultAuthInfoBase"/> object to the <see cref="T:Microsoft.SqlServer.Dac.KeyVault.KeyVaultAuthenticator"/>, to support scenarios
+            where a user changes authentication method, for instance by logging into a different Azure account
+            </summary>
+            <param name="authInfo"></param>
+        </member>
+        <member name="M:Microsoft.SqlServer.Dac.KeyVault.DacKeyVaultService.InitializeAuthenticator">
+            <summary>
+            Gives the authenticator the opportunity to register with the core AlwaysEncrypted callstack. This is important
+            in scenarios where Interactive authentication is being used and this is the global authenticator to be used in the application
+            </summary>
+        </member>
+        <member name="M:Microsoft.SqlServer.Dac.KeyVault.DacKeyVaultService.Validate(System.Collections.Generic.IList{System.String},System.Threading.CancellationToken)">
+            <summary>
+            Callback function to validate the presence of AKV token for Column Master Key access
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlServer.Dac.KeyVault.DacKeyVaultService.Instance">
+            <summary>
+            Singleton instance object for the <see cref="T:Microsoft.SqlServer.Dac.KeyVault.DacKeyVaultService"/>. 
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlServer.Dac.KeyVault.DacKeyVaultService.DependencyManager">
+            <summary>
+            Get DependencyManager
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlServer.Dac.KeyVault.DacKeyVaultService.Trace">
+            <summary>
+            Trace object to use for tracing
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlServer.Dac.KeyVault.DacKeyVaultService.BlockifMissingAuthentication">
+            <summary>
+            Gives a way to set early failure if Azure Key Vault Provider is not setup.
+            When this is true, deployment fails to start if there is no Provider defined
+            contrary to default mode which lets the deployment go through and fails only when key is actually used.
+            </summary>
+        </member>
+        <member name="T:Microsoft.SqlServer.Dac.KeyVault.ClientAndSecretAuthInfo">
+            <summary>
+            Authentication info for client ID and Secret, which is commonly supported in command line scenarios.
+            This can be obtained by using the Azure SDK to log into Azure and obtain this information.
+            </summary>
+        </member>
+        <member name="T:Microsoft.SqlServer.Dac.KeyVault.KeyVaultAuthInfoBase">
+            <summary>
+            Data class to define authentication info that can be passed to a <see cref="T:Microsoft.SqlServer.Dac.KeyVault.KeyVaultAuthenticator"/> when
+            configuring 
+            </summary>
+        </member>
+        <member name="M:Microsoft.SqlServer.Dac.KeyVault.ClientAndSecretAuthInfo.#ctor(System.String,System.String)">
+            <summary>
+            Constructor
+            </summary>
+            <param name="clientId">Must not be null or whitespace</param>
+            <param name="secret">Must not be null</param>
+        </member>
+        <member name="P:Microsoft.SqlServer.Dac.KeyVault.ClientAndSecretAuthInfo.ClientId">
+            <summary>
+            Client ID used to log in to Azure
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlServer.Dac.KeyVault.ClientAndSecretAuthInfo.Secret">
+            <summary>
+            Secret that verifies the authentication to Azure
+            </summary>
+        </member>
+        <member name="T:Microsoft.SqlServer.Dac.KeyVault.KeyVaultAuthenticator">
+            <summary>
+            Base class for any Azure Key Vault authentication provider. This is responsible for logging into Azure, obtaining
+            access keys and returning to the caller. 
+            Notes: Only one provider is allowed per process, with the first to register being the successful provider. In order to
+            support <see cref="T:Microsoft.SqlServer.Dac.DacServices"/> and related APIs being used in multiple UI tools and the SqlPackage command line the
+            binding to Azure Authentication DLLs is loosely coupled to the core Dac Framework using MEF. A default provider is available
+            for use in SqlPackage and other command line scenarios, supporting basic credential based authentication. This can be 
+            overridden in order to integrate with custom authentication pipelines or into your UI application by extending this method
+            and providing an <see cref="T:Microsoft.SqlServer.Dac.Extensibility.ExportableAttribute"/> with typeof(KeyVaultAuthenticator), a unique ID and high priority
+            </summary>
+        </member>
+        <member name="M:Microsoft.SqlServer.Dac.KeyVault.KeyVaultAuthenticator.GetToken(System.String,System.String,System.String)">
+            <summary>
+            Azure Key Vault authentication callback
+            </summary>
+            <param name="authority"></param>
+            <param name="resource"></param>
+            <param name="scope"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Microsoft.SqlServer.Dac.KeyVault.KeyVaultAuthenticator.UpdateAuthInfo(Microsoft.SqlServer.Dac.KeyVault.KeyVaultAuthInfoBase)">
+            <summary>
+            Passes a <see cref="T:Microsoft.SqlServer.Dac.KeyVault.KeyVaultAuthInfoBase"/> object to the KeyVaultAuthenticator, to support scenarios
+            where a user changes authentication method, for instance by logging into a different Azure account
+            </summary>
+            <param name="authInfo"></param>
+        </member>
+        <member name="M:Microsoft.SqlServer.Dac.KeyVault.KeyVaultAuthenticator.InitializeAuthenticator">
+            <summary>
+            Gives the authenticator the opportunity to register with the core AlwaysEncrypted callstack. This is important
+            in scenarios where Interactive authentication is being used and this is the global authenticator to be used in the application
+            </summary>
+        </member>
+        <member name="M:Microsoft.SqlServer.Dac.KeyVault.KeyVaultAuthenticator.Validate(System.Collections.Generic.IList{System.String},System.Threading.CancellationToken)">
+            <summary>
+            Called before Dac operations that may cause data movement against a table with encrypted columns will occur,
+            for instance deployment of a dacpac
+            </summary>
+            <param name="keyVaultUrls">
+            A list of URLs representing every Key Vault referenced by column master keys, where the key is involved in a data motion
+            operation. 
+            </param>
+            <param name="cancelToken"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Microsoft.SqlServer.Dac.KeyVault.KeyVaultValidationResult">
+            <summary>
+            Result returned from a key vault validator. Indicates success or failure, and any 
+            relevant error messages
+            </summary>
+        </member>
+        <member name="M:Microsoft.SqlServer.Dac.KeyVault.KeyVaultValidationResult.#ctor">
+            <summary>
+            Default constructor
+            </summary>
+        </member>
+        <member name="M:Microsoft.SqlServer.Dac.KeyVault.KeyVaultValidationResult.AddError(System.String)">
+            <summary>
+            Adds an error to the list of Validation errors
+            </summary>
+            <param name="message"></param>
+        </member>
+        <member name="P:Microsoft.SqlServer.Dac.KeyVault.KeyVaultValidationResult.IsValid">
+            <summary>
+            Was validation successful?
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlServer.Dac.KeyVault.KeyVaultValidationResult.ValidationErrors">
+            <summary>
+            Errors that caused validation to fail, if any
+            </summary>
+        </member>
         <member name="T:Microsoft.SqlServer.Dac.NestedDeploymentPropertyAttribute">
             <summary>
             This class supports the product infrastructure and is not intended to be used directly 
@@ -933,6 +1092,15 @@
             Default is false.
             </value>
         </member>
+        <member name="P:Microsoft.SqlServer.Dac.DacDeployOptions.AllowUnsafeRowLevelSecurityDataMovement">
+            <summary>
+            Get or set boolean that specifies whether to ignore blocking data motion on RLS enabled tables
+            </summary>
+            <value>
+            True to ignore block on data motion when Row level security is enabled on a table
+            Default is false i.e. data motion is blocked with RLS by default.
+            </value>
+        </member>
         <member name="P:Microsoft.SqlServer.Dac.DacDeployOptions.IncludeCompositeObjects">
             <summary>
             Get or set boolean that specifies whether to include referenced, external elements that also 
@@ -1233,11 +1401,6 @@
               Looks up a localized string similar to Extracting data from FileTable {0}.{1} is not supported..
             </summary>
         </member>
-        <member name="P:Microsoft.SqlServer.Dac.DacErrorResources.ErrorExtractingFromMasterUnsupported">
-            <summary>
-              Looks up a localized string similar to Extracting the master database is not supported..
-            </summary>
-        </member>
         <member name="P:Microsoft.SqlServer.Dac.DacErrorResources.ErrorExtractingPackageFromDatabase">
             <summary>
               Looks up a localized string similar to Could not extract package from specified database..
@@ -1436,6 +1599,11 @@
         <member name="P:Microsoft.SqlServer.Dac.DacErrorResources.InvalidModelHeaderData">
             <summary>
               Looks up a localized string similar to The model header data from the package &apos;{0}&apos; is invalid..
+            </summary>
+        </member>
+        <member name="P:Microsoft.SqlServer.Dac.DacErrorResources.NoKeyVaultAuthenticatorFound">
+            <summary>
+              Looks up a localized string similar to Cannot proceed as Key Vault support is not present in the current application. For Key Vault support during deployment, install DacFramework.msi and run SqlPackage.exe from its install location..
             </summary>
         </member>
         <member name="P:Microsoft.SqlServer.Dac.DacErrorResources.PackagingModelFailed">

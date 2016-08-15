@@ -22,13 +22,13 @@ namespace tSQLtTestAdapter
     {
         private static readonly  object _lock = new object();
 
-        public void DiscoverTests(IEnumerable<string> sources, IDiscoveryContext discoveryContext,
-            IMessageLogger logger, ITestCaseDiscoverySink discoverySink)
+        public void DiscoverTests(IEnumerable<string> sources, IDiscoveryContext discoveryContext, IMessageLogger logger, ITestCaseDiscoverySink discoverySink)
         {
             lock (_lock)
             {
                 //System.Diagnostics.Debugger.Launch();
                 Trace.WriteLine("ksjkjskjsakjs");
+
                 GetTests(sources, discoverySink);
             }
         }
@@ -52,6 +52,9 @@ namespace tSQLtTestAdapter
                         var source = sources.FirstOrDefault();
 
                         var testCase = new TestCase(string.Format("{0}.{1}", testClass.Name, test.Name), tSQLtTestExecutor.ExecutorUri, source);
+                        
+                        tests.Add(testCase);
+
                         if (discoverySink != null)
                         {
                             discoverySink.SendTestCase(testCase);
@@ -87,6 +90,7 @@ namespace tSQLtTestAdapter
 
         public List<TestClass> GetTests()
         {
+            
             if (!_haveChanges)
             {
                 return _tests;
@@ -133,5 +137,5 @@ namespace tSQLtTestAdapter
 
     }
 
-   
 }
+   

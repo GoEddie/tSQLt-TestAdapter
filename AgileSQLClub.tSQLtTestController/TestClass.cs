@@ -83,7 +83,8 @@ namespace AgileSQLClub.tSQLtTestController
                 return;
             
             var refereced = (ExecutableProcedureReference) exec.ExecuteSpecification.ExecutableEntity;
-            if (
+
+            if (refereced.ProcedureReference.ProcedureReference != null && refereced.ProcedureReference.ProcedureReference.Name != null &&
                 refereced.ProcedureReference.ProcedureReference.Name.BaseIdentifier.Value.IndexOf(
                     "sp_addextendedproperty", StringComparison.OrdinalIgnoreCase) > -1)
             {
@@ -98,7 +99,8 @@ namespace AgileSQLClub.tSQLtTestController
                     return;
 
                 var schemaName =((refereced.Parameters.FirstOrDefault(p => p.Variable.Name.ToLowerInvariant() == "@level0name"))?.ParameterValue as StringLiteral)?.Value;
-                ExtendedProperties.Add(new tSQLtExtendedProperty(schemaName.UnQuote()));        
+                if(!String.IsNullOrEmpty(schemaName))
+                    ExtendedProperties.Add(new tSQLtExtendedProperty(schemaName.UnQuote()));        
             }
       
         }
