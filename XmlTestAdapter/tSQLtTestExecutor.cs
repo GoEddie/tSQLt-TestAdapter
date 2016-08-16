@@ -32,14 +32,14 @@ namespace tSQLtTestAdapter
             {
                 if (m_cancelled)
                     break;
-
+               
                 var testResult = new TestResult(test);
                 var testSession = new tSQLtTestRunner(connectionString);
                 var result = testSession.Run(test.DisplayName.Split('.')[0], test.DisplayName.Split('.')[1]);
 
                 testResult.Outcome = result.Passed() ? TestOutcome.Passed : TestOutcome.Failed;
                 testResult.ErrorMessage += result.FailureMessages();
-              
+
                 frameworkHandle.RecordResult(testResult);
             }
 

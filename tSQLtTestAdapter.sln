@@ -5,7 +5,7 @@ VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "tSQLtTestAdapter", "XmlTestAdapter\tSQLtTestAdapter.csproj", "{BC4B3BED-9241-4DD6-8070-A9B66DFC08C1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XMLTestAdapterVSIX", "XMLTestAdapterVSIX\XMLTestAdapterVSIX.csproj", "{D519F9EB-22F8-4054-A039-EDE0EFA6F025}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "tSQLtTestAdapterVSIX", "XMLTestAdapterVSIX\tSQLtTestAdapterVSIX.csproj", "{D519F9EB-22F8-4054-A039-EDE0EFA6F025}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AgileSQLClub.tSQLtTestController", "AgileSQLClub.tSQLtTestController\AgileSQLClub.tSQLtTestController.csproj", "{35E9ACF7-2A97-4160-AB4E-42F4C4EA16CD}"
 EndProject

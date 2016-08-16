@@ -24,7 +24,7 @@ namespace UnitTests
  , @value = 1
  , @level0type = N'SCHEMA'
  , @level0name = N'MyUnitSchema';
-", new ScanResults());
+", new ScanResults(), "path");
 
             Assert.AreEqual(1, result.FoundProperties.Count);
             Assert.AreEqual("MyUnitSchema", result.FoundProperties.First().SchemaName);
@@ -38,7 +38,7 @@ namespace UnitTests
 
 
             var result =
-            scanner.ScanCode("--select 100\r\nGO\r\ncreate      /*AAAAAAAA*/ schema [my_schema];", new ScanResults());
+            scanner.ScanCode("--select 100\r\nGO\r\ncreate      /*AAAAAAAA*/ schema [my_schema];", new ScanResults(), "path");
 
             Assert.AreEqual(1, result.FoundClasses.Count);
             Assert.AreEqual("my_schema", result.FoundClasses.First().Name);
@@ -52,7 +52,7 @@ namespace UnitTests
 
 
             var result =
-            scanner.ScanCode("--select 100\r\nGO\r\ncreate    procedure [test hello there] as select 1;", new ScanResults());
+            scanner.ScanCode("--select 100\r\nGO\r\ncreate    procedure [test hello there] as select 1;", new ScanResults(), "path");
 
             Assert.AreEqual(1, result.FoundPotentialTests.Count);
             Assert.AreEqual("test hello there", result.FoundPotentialTests.First().Name.Object);
@@ -66,7 +66,7 @@ namespace UnitTests
 
 
             var result =
-            scanner.ScanCode("--select 100\r\nGO\r\ncreate    procedure [blah hello there] as select 1;", new ScanResults());
+            scanner.ScanCode("--select 100\r\nGO\r\ncreate    procedure [blah hello there] as select 1;", new ScanResults(), "path");
 
             Assert.AreEqual(0, result.FoundPotentialTests.Count);
             

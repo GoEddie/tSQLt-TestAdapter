@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 using Microsoft.SqlServer.TransactSql.ScriptDom;
 
 namespace AgileSQLClub.tSQLtTestController
@@ -17,29 +18,32 @@ namespace AgileSQLClub.tSQLtTestController
             _parser = parser;
         }
 
-        public ScanResults ScanCode(string code, ScanResults results)
+        public ScanResults ScanCode(string code, ScanResults results, string path)
         {
             
             var batches = code.Split(new[] {"\r\nGO\r\n", "\nGO\n"}, StringSplitOptions.None);
+            var offset = 0;
+            int lineOffset = 0;
 
             foreach (var batch in batches)
             {
-                results = AppendResults(results, batch);
+                results = AppendResults(results, batch, path, offset, lineOffset); //this won't be exact, depending which split option is used we will be 4 or 6 chars off... :(
+                offset += batch.Length;
+                lineOffset = batch.Split('\n').Length;
             }
 
             return results;
         }
 
-        private ScanResults AppendResults(ScanResults results, string batch)
+        private ScanResults AppendResults(ScanResults results, string batch, string path, int offset, int lineOffset)
         {
-            //
+            
             var reader = new StringReader(batch);
             IList<ParseError> errors;
             var fragment = _parser.Parse(reader, out errors);
-            var visitor = new TestVisitor();
+            var visitor = new TestVisitor(path, offset, lineOffset);
             fragment.Accept(visitor);
-            Console.WriteLine("hjhjhjh");
-
+            
             results.FoundProperties.AddRange(visitor.ExtendedProperties);
             results.FoundClasses.AddRange(visitor.Schemas);
             results.FoundPotentialTests.AddRange(visitor.Procedures);
@@ -52,7 +56,17 @@ namespace AgileSQLClub.tSQLtTestController
     {
         public readonly List<tSQLtExtendedProperty> ExtendedProperties = new List<tSQLtExtendedProperty>();
         public readonly List<SqlSchema> Schemas = new List<SqlSchema>();
-        public readonly  List<SqlProctedure> Procedures = new List<SqlProctedure>();
+        public readonly  List<SqlProcedure> Procedures = new List<SqlProcedure>();
+        private readonly string _path;
+        private readonly int _offset;
+        private readonly int _lineOffset;
+
+        public TestVisitor(string path, int offset, int lineOffset)
+        {
+            this._path = path;
+            _offset = offset;
+            _lineOffset = lineOffset;
+        }
 
         public override void Visit(CreateProcedureStatement proc)
         {
@@ -62,7 +76,7 @@ namespace AgileSQLClub.tSQLtTestController
             name.Object = son.BaseIdentifier?.Value.UnQuote();
 
             if(name.Object.ToLowerInvariant().StartsWith("test"))
-                Procedures.Add(new SqlProctedure(name));
+                Procedures.Add(new SqlProcedure(name,  _path, _offset+proc.StartOffset, proc.FragmentLength, _lineOffset + proc.StartLine));
             
             base.Visit(proc);
         }
@@ -111,7 +125,7 @@ namespace AgileSQLClub.tSQLtTestController
     public class ScanResults
     {
         public List<SqlSchema> FoundClasses = new List<SqlSchema>();
-        public List<SqlProctedure> FoundPotentialTests = new List<SqlProctedure>();
+        public List<SqlProcedure> FoundPotentialTests = new List<SqlProcedure>();
         public List<tSQLtExtendedProperty> FoundProperties = new List<tSQLtExtendedProperty>();
     }
 
@@ -121,12 +135,22 @@ namespace AgileSQLClub.tSQLtTestController
         public string Object;
     }
 
-    public class SqlProctedure
+    public class SqlProcedure
     {
-        public SqlProctedure(SqlObjectName name)
+        public SqlProcedure(SqlObjectName name, string path, int startPos, int endPos, int startLine)
         {
             Name = name;
+            Path = path;
+            StartPos = startPos;
+            EndPos = endPos;
+            StartLine = startLine;
         }
+
+        public string Path { get; set; }
+        public int StartPos { get; set; }
+        public int EndPos { get; set; }
+        public int StartLine { get; set; }
+        
         public SqlObjectName Name;
         
     }
@@ -173,7 +197,7 @@ namespace AgileSQLClub.tSQLtTestController
             foreach (var path in _filePaths)
             {
                 var scanner= new FileScanner(_parser);
-                results = scanner.ScanCode(File.ReadAllText(path), results);
+                results = scanner.ScanCode(File.ReadAllText(path), results, path);
             }
 
             var foundClasses =
@@ -206,6 +230,7 @@ namespace AgileSQLClub.tSQLtTestController
     public class Test
     {
         public string Name;
-
+        public string Path;
+        public int Line { get; set; }
     }
 }

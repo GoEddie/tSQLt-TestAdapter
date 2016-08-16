@@ -1,6 +1,6 @@
 <PackageManifest Version="2.0.0" xmlns="http://schemas.microsoft.com/developer/vsx-schema/2011">
   <Metadata>
-    <Identity Id="AgileSQLClub.tSQLtTestAdapter" Version="0.20" Language="en-US" Publisher="EdElliott" />
+    <Identity Id="AgileSQLClub.tSQLtTestAdapter" Version="0.45" Language="en-US" Publisher="EdElliott" />
     <DisplayName>tSQLt Test Adapter</DisplayName>
     <Description xml:space="preserve">Unit Test Adapter for tSQLt Tests</Description>
     <MoreInfo>https://the.agilsql.club/projects/tSQLt-Test-Adapter</MoreInfo>
@@ -16,8 +16,8 @@
     <Dependency Id="Microsoft.Framework.NDP" DisplayName="Microsoft .NET Framework" Version="4.5" />
   </Dependencies>
   <Assets>
-    <Asset Type="Microsoft.VisualStudio.MefComponent" Path="XmlTestAdapter.dll" />
-    <Asset Type="UnitTestExtension" Path="XmlTestAdapter.dll" />
+    <Asset Type="Microsoft.VisualStudio.MefComponent" Path="tSQLtTestAdapter.dll" />
+    <Asset Type="UnitTestExtension" Path="tSQLtTestAdapter.dll" />
     <Asset Type="Microsoft.VisualStudio.Assembly" Path="AgileSQLClub.tSQLtTestController.dll" AssemblyName="AgileSQLClub.tSQLtTestController, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" />
   </Assets>
 </PackageManifest>

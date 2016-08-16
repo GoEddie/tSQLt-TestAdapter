@@ -36,7 +36,6 @@ namespace tSQLtTestAdapter
             ITestFilesUpdateWatcher testFilesUpdateWatcher,
             ITestFileAddRemoveListener testFilesAddRemoveListener)
         {
-            Trace.WriteLine("Hello");
             
             initialContainerSearch = true;
             cachedContainers = new List<ITestContainer>();
@@ -46,14 +45,14 @@ namespace tSQLtTestAdapter
             this.testFilesUpdateWatcher = testFilesUpdateWatcher;
             this.testFilesAddRemoveListener = testFilesAddRemoveListener;
 
-
+            testFilesUpdateWatcher.FileChangedEvent += OnProjectItemChanged;
             this.testFilesAddRemoveListener.TestFileChanged += OnProjectItemChanged;
             this.testFilesAddRemoveListener.StartListeningForTestFileChanges();
 
             this.solutionListener.SolutionUnloaded += SolutionListenerOnSolutionUnloaded;
             this.solutionListener.SolutionProjectChanged += OnSolutionProjectChanged;
             this.solutionListener.StartListeningForChanges();
-            logger.Log(MessageLevel.Error, "jhjhjhjhjh");
+            
             this.testFilesUpdateWatcher.FileChangedEvent += OnProjectItemChanged;
         }
 

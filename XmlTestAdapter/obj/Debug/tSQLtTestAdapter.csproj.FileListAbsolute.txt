@@ -218,3 +218,7 @@ C:\dev\TestAdapter\XmlTestAdapter\bin\Debug\pt-BR\Microsoft.SqlServer.Dac.Extens
 C:\dev\TestAdapter\XmlTestAdapter\bin\Debug\ru-RU\Microsoft.SqlServer.Dac.Extensions.resources.dll
 C:\dev\TestAdapter\XmlTestAdapter\bin\Debug\zh-CN\Microsoft.SqlServer.Dac.Extensions.resources.dll
 C:\dev\TestAdapter\XmlTestAdapter\bin\Debug\zh-TW\Microsoft.SqlServer.Dac.Extensions.resources.dll
+C:\dev\TestAdapter\XmlTestAdapter\bin\Debug\tSQLtTestAdapter.dll
+C:\dev\TestAdapter\XmlTestAdapter\bin\Debug\tSQLtTestAdapter.pdb
+C:\dev\TestAdapter\XmlTestAdapter\obj\Debug\tSQLtTestAdapter.dll
+C:\dev\TestAdapter\XmlTestAdapter\obj\Debug\tSQLtTestAdapter.pdb
