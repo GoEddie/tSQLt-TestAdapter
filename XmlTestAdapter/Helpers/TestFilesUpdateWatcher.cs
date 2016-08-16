@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.IO;
+using System.Windows.Forms;
 using Microsoft.VisualStudio.TestPlatform.ObjectModel;
 
 namespace tSQLtTestAdapter.Helpers
@@ -42,10 +43,20 @@ namespace tSQLtTestAdapter.Helpers
                 if (!fileWatchers.TryGetValue(path, out watcherInfo))
                 {
                     watcherInfo = new FileWatcherInfo(new FileSystemWatcher(directoryName, fileName));
-                    fileWatchers.Add(path, watcherInfo);
-
+                 
                     watcherInfo.Watcher.Changed += OnChanged;
                     watcherInfo.Watcher.EnableRaisingEvents = true;
+                    watcherInfo.Watcher.Error += (sender, args) => MessageBox.Show("oh wow: " + args.GetException());
+                    watcherInfo.Watcher.NotifyFilter= (NotifyFilters.Attributes |
+                                                            NotifyFilters.CreationTime |
+                                                            NotifyFilters.FileName |
+                                                            NotifyFilters.LastAccess |
+                                                            NotifyFilters.LastWrite |
+                                                            NotifyFilters.Size |
+                                                            NotifyFilters.Security);
+
+                    fileWatchers.Add(path, watcherInfo);
+
                 }
             }
         }
@@ -72,6 +83,7 @@ namespace tSQLtTestAdapter.Helpers
 
         private void OnChanged(object sender, FileSystemEventArgs e)
         {
+            
             FileWatcherInfo watcherInfo;
             if (FileChangedEvent != null && fileWatchers.TryGetValue(e.FullPath, out watcherInfo))
             {

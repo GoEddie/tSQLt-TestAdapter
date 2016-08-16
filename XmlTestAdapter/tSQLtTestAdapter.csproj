@@ -99,6 +99,7 @@
     <Compile Include="Helpers\ISolutionEventsListener.cs" />
     <Compile Include="Helpers\ITestFileAddRemoveListener.cs" />
     <Compile Include="Helpers\ITestFilesUpdateWatcher.cs" />
+    <Compile Include="Helpers\RunSettings.cs" />
     <Compile Include="Helpers\SolutionEventsListener.cs" />
     <Compile Include="Helpers\SolutionEventsListenerEventArgs.cs" />
     <Compile Include="Helpers\TestFileAddRemoveListener.cs" />

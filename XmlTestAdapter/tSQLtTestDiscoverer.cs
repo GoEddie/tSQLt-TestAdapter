@@ -1,10 +1,13 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using Microsoft.VisualStudio.TestPlatform.ObjectModel;
 using Microsoft.VisualStudio.TestPlatform.ObjectModel.Adapter;
 using Microsoft.VisualStudio.TestPlatform.ObjectModel.Logging;
+using tSQLtTestAdapter.Helpers;
 
 namespace tSQLtTestAdapter
 {
@@ -17,9 +20,14 @@ namespace tSQLtTestAdapter
 
         public void DiscoverTests(IEnumerable<string> sources, IDiscoveryContext discoveryContext, IMessageLogger logger, ITestCaseDiscoverySink discoverySink)
         {
-            Debugger.Launch();
-
+            
             logger.SendMessage(TestMessageLevel.Informational, "tSQLt Test Adapter, searching for tests...");
+
+            var includePath = new RunSettings(discoveryContext.RunSettings).GetSetting("IncludePath");
+            if (!String.IsNullOrEmpty(includePath))
+            {
+                SetPathFilter(includePath);
+            }
 
             lock (_lock)
             {
@@ -32,14 +40,34 @@ namespace tSQLtTestAdapter
                 logger.SendMessage(TestMessageLevel.Informational, "tSQLt Test Adapter, searching for tests...done - none found");
         }
 
+        private static List<Regex> _includePaths = new List<Regex>();
+
+        private void SetPathFilter(string includePath)
+        {
+            if (includePath.IndexOf(";") >= 0)
+            {
+                foreach (var part in includePath.Split(';'))
+                {
+                    _includePaths.Add(new Regex(part));
+                }
+            }
+            else
+            {
+                _includePaths.Add(new Regex(includePath));
+            }
+        }
+
         public static List<TestCase> GetTests(IEnumerable<string> sources, ITestCaseDiscoverySink discoverySink)
         {
             lock (_lock)
             {
+                
+
                 var tests = new List<TestCase>();
                 foreach (var source in sources)
                 {
-                    _tests.AddPath(source);
+                    if(_includePaths.Count == 0 || _includePaths.Any(p=>p.IsMatch(source)))
+                        _tests.AddPath(source);
                 }
 
                 var testInCode = _tests.GetTests();

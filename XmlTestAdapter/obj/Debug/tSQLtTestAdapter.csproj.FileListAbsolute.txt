@@ -94,8 +94,6 @@ C:\dev\XmlTestAdapter\XmlTestAdapter\bin\Debug\zh-Hant\Microsoft.SqlServer.Types
 C:\dev\XmlTestAdapter\XmlTestAdapter\obj\Debug\tSQLtTestAdapter.csprojResolveAssemblyReference.cache
 C:\dev\XmlTestAdapter\XmlTestAdapter\obj\Debug\XmlTestAdapter.dll
 C:\dev\XmlTestAdapter\XmlTestAdapter\obj\Debug\XmlTestAdapter.pdb
-C:\dev\TestAdapter\XmlTestAdapter\bin\Debug\XmlTestAdapter.dll
-C:\dev\TestAdapter\XmlTestAdapter\bin\Debug\XmlTestAdapter.pdb
 C:\dev\TestAdapter\XmlTestAdapter\bin\Debug\AgileSQLClub.tSQLtTestController.dll
 C:\dev\TestAdapter\XmlTestAdapter\bin\Debug\Microsoft.VisualStudio.Shell.14.0.dll
 C:\dev\TestAdapter\XmlTestAdapter\bin\Debug\Microsoft.VisualStudio.Shell.Immutable.10.0.dll
@@ -167,8 +165,6 @@ C:\dev\TestAdapter\XmlTestAdapter\bin\Debug\Microsoft.VisualStudio.Shell.Interop
 C:\dev\TestAdapter\XmlTestAdapter\bin\Debug\EnvDTE80.xml
 C:\dev\TestAdapter\XmlTestAdapter\bin\Debug\Microsoft.SqlServer.Dac.xml
 C:\dev\TestAdapter\XmlTestAdapter\obj\Debug\tSQLtTestAdapter.csprojResolveAssemblyReference.cache
-C:\dev\TestAdapter\XmlTestAdapter\obj\Debug\XmlTestAdapter.dll
-C:\dev\TestAdapter\XmlTestAdapter\obj\Debug\XmlTestAdapter.pdb
 C:\dev\TestAdapter\XmlTestAdapter\bin\Debug\tSQLt.Client.Net.dll
 C:\dev\TestAdapter\XmlTestAdapter\bin\Debug\tSQLt.Client.Net.pdb
 C:\dev\TestAdapter\XmlTestAdapter\bin\Debug\Microsoft.SqlServer.TransactSql.ScriptDom.dll

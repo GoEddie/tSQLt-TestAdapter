@@ -53,7 +53,6 @@ namespace tSQLtTestAdapter
             this.solutionListener.SolutionProjectChanged += OnSolutionProjectChanged;
             this.solutionListener.StartListeningForChanges();
             
-            this.testFilesUpdateWatcher.FileChangedEvent += OnProjectItemChanged;
         }
 
         private void OnTestContainersChanged()
