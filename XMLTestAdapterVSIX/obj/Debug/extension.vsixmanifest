@@ -1,6 +1,6 @@
 <PackageManifest Version="2.0.0" xmlns="http://schemas.microsoft.com/developer/vsx-schema/2011">
   <Metadata>
-    <Identity Id="AgileSQLClub.tSQLtTestAdapter" Version="0.51" Language="en-US" Publisher="EdElliott" />
+    <Identity Id="AgileSQLClub.tSQLtTestAdapter" Version="0.59" Language="en-US" Publisher="EdElliott" />
     <DisplayName>tSQLt Test Adapter</DisplayName>
     <Description xml:space="preserve">Unit Test Adapter for tSQLt Tests</Description>
     <MoreInfo>https://the.agilsql.club/projects/tSQLt-Test-Adapter</MoreInfo>

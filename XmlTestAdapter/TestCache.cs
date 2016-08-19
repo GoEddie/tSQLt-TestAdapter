@@ -53,6 +53,7 @@ namespace tSQLtTestAdapter
             {
                 var testClass = new TestClass();
                 testClass.Name = cls.Name;
+                testClass.Path = cls.Path;
                 //testClass.Tests =
                 foreach (var test in foundTests.Where(p => string.Equals(p.Name.Schema, cls.Name, StringComparison.OrdinalIgnoreCase)))
                 {

@@ -83,7 +83,7 @@ namespace AgileSQLClub.tSQLtTestController
 
         public override void Visit(CreateSchemaStatement node)
         {
-            Schemas.Add(new SqlSchema(node.Name.Value.UnQuote()));
+            Schemas.Add(new SqlSchema(node.Name.Value.UnQuote(), _path));
 
             base.Visit(node);
         }
@@ -157,11 +157,13 @@ namespace AgileSQLClub.tSQLtTestController
 
     public class SqlSchema
     {
-        public SqlSchema(string schemaName)
+        public SqlSchema(string schemaName, string path)
         {
             Name = schemaName;
+            Path = path;
         }
 
+        public string Path;
         public string Name;
         
     }
@@ -224,6 +226,7 @@ namespace AgileSQLClub.tSQLtTestController
     public class TestClass
     {
         public string Name;
+        public string Path;
         public List<Test> Tests = new List<Test>();
     }
 

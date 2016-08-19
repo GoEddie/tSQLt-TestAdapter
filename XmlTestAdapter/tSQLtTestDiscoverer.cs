@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
+using AgileSQLClub.tSQLtTestController;
 using Microsoft.VisualStudio.TestPlatform.ObjectModel;
 using Microsoft.VisualStudio.TestPlatform.ObjectModel.Adapter;
 using Microsoft.VisualStudio.TestPlatform.ObjectModel.Logging;
@@ -20,14 +21,18 @@ namespace tSQLtTestAdapter
 
         public void DiscoverTests(IEnumerable<string> sources, IDiscoveryContext discoveryContext, IMessageLogger logger, ITestCaseDiscoverySink discoverySink)
         {
-            
+            if (String.IsNullOrEmpty(
+                    new RunSettings(discoveryContext.RunSettings).GetSetting("TestDatabaseConnectionString")))
+            {
+                return;
+            }
+
+
             logger.SendMessage(TestMessageLevel.Informational, "tSQLt Test Adapter, searching for tests...");
 
+            
             var includePath = new RunSettings(discoveryContext.RunSettings).GetSetting("IncludePath");
-            if (!String.IsNullOrEmpty(includePath))
-            {
-                SetPathFilter(includePath);
-            }
+            SetPathFilter(includePath);
 
             lock (_lock)
             {
@@ -42,18 +47,23 @@ namespace tSQLtTestAdapter
 
         private static List<Regex> _includePaths = new List<Regex>();
 
-        private void SetPathFilter(string includePath)
+        public static void SetPathFilter(string includePath)
         {
-            if (includePath.IndexOf(";") >= 0)
+            _includePaths.Clear();
+
+            if (!String.IsNullOrEmpty(includePath))
             {
-                foreach (var part in includePath.Split(';'))
+                if (includePath.IndexOf(";", StringComparison.Ordinal) >= 0)
                 {
-                    _includePaths.Add(new Regex(part));
+                    foreach (var part in includePath.Split(';'))
+                    {
+                        _includePaths.Add(new Regex(part));
+                    }
                 }
-            }
-            else
-            {
-                _includePaths.Add(new Regex(includePath));
+                else
+                {
+                    _includePaths.Add(new Regex(includePath));
+                }
             }
         }
 
@@ -61,8 +71,6 @@ namespace tSQLtTestAdapter
         {
             lock (_lock)
             {
-                
-
                 var tests = new List<TestCase>();
                 foreach (var source in sources)
                 {
@@ -76,19 +84,29 @@ namespace tSQLtTestAdapter
                 {
                     foreach (var test in testClass.Tests)
                     {
-                        var testCase = new TestCase(string.Format("{0}.{1}", testClass.Name, test.Name), tSQLtTestExecutor.ExecutorUri, test.Path);
+                        var testCase = new TestCase(string.Format("{0}.{1}", testClass.Name, test.Name), tSQLtTestExecutor.ExecutorUri, test.Path );
                         testCase.LineNumber = test.Line;
                         testCase.CodeFilePath = test.Path;
                         
                         tests.Add(testCase);
-                        
+                                                
                         if (discoverySink != null)
                         {
                             discoverySink.SendTestCase(testCase);
                         }
                     }
-                }
 
+                    if (discoverySink != null)
+                    {
+                        var tcClass = new TestCase(testClass.Name + " TestClass", tSQLtTestExecutor.ExecutorUri, testClass.Path);
+                        tcClass.CodeFilePath = testClass.Path;
+                        
+                        tests.Add(tcClass);
+                        
+                        discoverySink.SendTestCase(tcClass);
+                    }
+                }
+                
                 return tests;
             }
         }

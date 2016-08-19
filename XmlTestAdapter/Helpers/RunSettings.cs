@@ -31,15 +31,14 @@ namespace tSQLtTestAdapter.Helpers
             var current = _document.Element("RunSettings");
             if (current == null)
             {
-                throw new InvalidOperationException("You must supply a runSettings and with a connectionString");
+                return null;
             }
 
             current = current.Element("TestRunParameters");
 
             if (current == null)
             {
-                throw new InvalidOperationException(
-                    "You must supply a runSettings with a TestRunParameters section with a connectionString");
+                return null;
             }
 
             foreach (var element in current.Elements())
@@ -48,8 +47,7 @@ namespace tSQLtTestAdapter.Helpers
                 {
                     if (element.Attribute("value") == null)
                     {
-                        throw new InvalidOperationException(
-                            "You must supply a runSettings with a TestRunParameters section with a connectionString - it looks like you have the element but are missing the attribute \"value\"");
+                        return null;
 
                     }
 
@@ -58,8 +56,7 @@ namespace tSQLtTestAdapter.Helpers
                 }
             }
 
-            throw new InvalidOperationException(
-                "You must supply a runSettings with a TestRunParameters section with a connectionString - nope not found :(");
+            return null;
 
         }
 
