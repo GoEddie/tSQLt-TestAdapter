@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <PackageManifest Version="2.0.0" xmlns="http://schemas.microsoft.com/developer/vsx-schema/2011" xmlns:d="http://schemas.microsoft.com/developer/vsx-schema-design/2011">
   <Metadata>
-    <Identity Id="AgileSQLClub.tSQLtTestAdapter" Version="0.59" Language="en-US" Publisher="EdElliott" />
+    <Identity Id="AgileSQLClub.tSQLtTestAdapter" Version="0.63" Language="en-US" Publisher="EdElliott" />
     <DisplayName>tSQLt Test Adapter</DisplayName>
     <Description xml:space="preserve">Unit Test Adapter for tSQLt Tests</Description>
     <MoreInfo>https://the.agilsql.club/projects/tSQLt-Test-Adapter</MoreInfo>
@@ -9,9 +9,9 @@
     <Tags>tSQLt, Test, Adapter</Tags>
   </Metadata>
   <Installation>
-    <InstallationTarget Id="Microsoft.VisualStudio.Pro" Version="[11.0,15.0)" />
-    <InstallationTarget Version="[11.0,15.0)" Id="Microsoft.VisualStudio.Ultimate" />
-    <InstallationTarget Version="[11.0,15.0)" Id="Microsoft.VisualStudio.Premium" />
+    <InstallationTarget Id="Microsoft.VisualStudio.Pro" Version="[14.0,15.0)" />
+    <InstallationTarget Version="[14.0,15.0)" Id="Microsoft.VisualStudio.Ultimate" />
+    <InstallationTarget Version="[14.0,15.0)" Id="Microsoft.VisualStudio.Premium" />
   </Installation>
   <Dependencies>
     <Dependency Id="Microsoft.Framework.NDP" DisplayName="Microsoft .NET Framework" d:Source="Manual" Version="4.5" />
