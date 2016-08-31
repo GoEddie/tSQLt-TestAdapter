@@ -13,7 +13,7 @@ namespace UnitTests
     [TestFixture]
     public class tSQLtTestFinderTests
     {
-        private readonly TSqlParser _parser;
+        private readonly TSqlParser _parser = new TSql140Parser(true);
 
         
         [Test]
@@ -57,6 +57,17 @@ namespace UnitTests
                             , @level0name = N'MyUnitSchema';";
 
 
+        }
+
+        [Test]
+        public void Finds_Classes_Registered_With_NewTestClass()
+        {
+            var script = @"tSQLt.NewTestClass @ClassName = 'class name'";
+
+            var scanner = new FileScanner(_parser);
+            var results = scanner.ScanCode(script, new ScanResults(), "path");
+            Assert.True(results.FoundClasses.Any(p=>p.Name == "class name"));
+            Assert.True(results.FoundProperties.Any(p => p.SchemaName == "class name"));
         }
 
     }
