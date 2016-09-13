@@ -187,7 +187,6 @@ namespace AgileSQLClub.tSQLtTestController
     public class TestFinder
     {
         private readonly List<string> _filePaths;
-        private readonly string _lookupPath;
         private readonly TSqlParser _parser;
 
         public TestFinder(TSqlParser parser, List<string> filePaths)

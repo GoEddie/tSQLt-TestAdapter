@@ -11,16 +11,23 @@ namespace tSQLtTestAdapter
 {
     [DefaultExecutorUri(Constants.ExecutorUriString)]
     [FileExtension(Constants.FileExtension)]
-    public class XmlTestDiscoverer : ITestDiscoverer
+    public class tSQLtTestDiscoverer : ITestDiscoverer
     {
         private static readonly object _lock = new object();
         private static readonly TestCache _tests = new TestCache();
 
         private static readonly List<Regex> _includePaths = new List<Regex>();
+        private IMessageLogger _logger;
+        private bool _debug;
 
         public void DiscoverTests(IEnumerable<string> sources, IDiscoveryContext discoveryContext, IMessageLogger logger, ITestCaseDiscoverySink discoverySink)
         {
-            if (string.IsNullOrEmpty(new RunSettings(discoveryContext.RunSettings).GetSetting("TestDatabaseConnectionString")))
+            var settings = new RunSettings(discoveryContext.RunSettings);
+            _logger = logger;
+
+            _debug = settings.GetSetting("tSQLt-TestAdapter-Debug")?.ToLowerInvariant() == "true";
+            
+            if (string.IsNullOrEmpty(settings.GetSetting("TestDatabaseConnectionString")))
             {
                 logger.SendMessage(TestMessageLevel.Informational, "No RunSettings TestDatabaseConnectionString set - will not attempt to discover tests..");
                 return;
@@ -29,11 +36,10 @@ namespace tSQLtTestAdapter
             logger.SendMessage(TestMessageLevel.Informational, "tSQLt Test Adapter, searching for tests...");
             
             var includePath = new RunSettings(discoveryContext.RunSettings).GetSetting("IncludePath");
-            SetPathFilter(includePath);
-
+            
             lock (_lock)
             {
-                GetTests(sources, discoverySink);
+                GetTests(sources, discoverySink, includePath);
             }
 
             if (_tests != null)
@@ -42,7 +48,7 @@ namespace tSQLtTestAdapter
                 logger.SendMessage(TestMessageLevel.Informational, "tSQLt Test Adapter, searching for tests...done - none found");
         }
 
-        public static void SetPathFilter(string includePath)
+        public void SetPathFilter(string includePath)
         {
             _includePaths.Clear();
 
@@ -52,20 +58,32 @@ namespace tSQLtTestAdapter
                 {
                     foreach (var part in includePath.Split(';'))
                     {
+                        Debug($"tSQLt-Test-Adapter: Adding filter: {part}");
                         _includePaths.Add(new Regex(part));
                     }
                 }
                 else
                 {
+                    Debug($"tSQLt-Test-Adapter: Adding filter: {includePath}");
                     _includePaths.Add(new Regex(includePath));
                 }
             }
         }
 
-        public static List<TestCase> GetTests(IEnumerable<string> sources, ITestCaseDiscoverySink discoverySink)
+        private void Debug(string message)
+        {
+            if (_debug)
+                _logger.SendMessage(TestMessageLevel.Informational, message);
+        }
+
+
+        public  List<TestCase> GetTests(IEnumerable<string> sources, ITestCaseDiscoverySink discoverySink, string filter)
         {
             lock (_lock)
             {
+                if(!String.IsNullOrEmpty(filter))
+                    SetPathFilter(filter);
+
                 var tests = new List<TestCase>();
 
                 foreach (var source in sources)
@@ -81,15 +99,15 @@ namespace tSQLtTestAdapter
                     foreach (var test in testClass.Tests)
                     {
                         var testCase = new TestCase(string.Format("{0}.{1}", testClass.Name, test.Name), tSQLtTestExecutor.ExecutorUri, test.Path);
-
-
+                        
                         testCase.LineNumber = test.Line;
                         testCase.CodeFilePath = test.Path;
 
                         tests.Add(testCase);
-
+                        Debug($"tSQLt-Test-Adapter Adding test case {testClass.Name}.{test.Name}");
                         if (discoverySink != null)
                         {
+                            Debug($"tSQLt-Test-Adapter Adding test case {testClass.Name}.{test.Name} - SENDING TO discoverSink");
                             discoverySink.SendTestCase(testCase);
                         }
                     }
@@ -101,7 +119,7 @@ namespace tSQLtTestAdapter
                         tcClass.CodeFilePath = testClass.Path;
 
                         tests.Add(tcClass);
-
+                        Debug($"tSQLt-Test-Adapter Adding test case {testClass.Name} - SENDING test class wrapper");
                         discoverySink.SendTestCase(tcClass);
                     }
                 }

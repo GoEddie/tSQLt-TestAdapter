@@ -16,16 +16,22 @@ namespace tSQLtTestAdapter
     {
         public void RunTests(IEnumerable<string> sources, IRunContext runContext, IFrameworkHandle frameworkHandle)
         {
-            XmlTestDiscoverer.SetPathFilter(new RunSettings(runContext.RunSettings).GetSetting("IncludePath"));
-            IEnumerable<TestCase> tests = XmlTestDiscoverer.GetTests(sources, null);
+            var discoverer = new tSQLtTestDiscoverer();
+            IEnumerable<TestCase> tests = discoverer.GetTests(sources, null, new RunSettings(runContext.RunSettings).GetSetting("IncludePath"));
             RunTests(tests, runContext, frameworkHandle);
         }
 
         public void RunTests(IEnumerable<TestCase> tests, IRunContext runContext, IFrameworkHandle frameworkHandle)
         {
-            m_cancelled = false;
-            
-            var connectionString =new RunSettings(runContext.RunSettings).GetSetting("TestDatabaseConnectionString");
+
+
+            _cancelled = false;
+            var settings = new RunSettings(runContext.RunSettings);
+
+            var connectionString = settings.GetSetting("TestDatabaseConnectionString");
+            var debug = settings.GetSetting("tSQLt-TestAdapter-Debug")?.ToLowerInvariant() == "true";
+
+
             if (String.IsNullOrEmpty(connectionString))
             {
                 frameworkHandle.SendMessage(TestMessageLevel.Error, @"No connection string found. You need to specify a run setting with the name ""TestDatabaseConnectionString"". Create a .runsettings file a sample is: 
@@ -49,12 +55,17 @@ If you are running tests in visual studio choose ""Test-->Test Settings-->Select
 
             foreach (TestCase test in tests)
             {
-                if (m_cancelled)
+                if (_cancelled)
                     break;
                
                 var testResult = new TestResult(test);
                 var testSession = new tSQLtTestRunner(connectionString);
+
+                Debug(debug, frameworkHandle, $"running test {test.DisplayName}");
+
                 var result = Run(testSession, test);
+
+                Debug(debug, frameworkHandle, $"running test {test.DisplayName}...done");
 
                 if (null == result)
                 {
@@ -63,10 +74,18 @@ If you are running tests in visual studio choose ""Test-->Test Settings-->Select
 
                 testResult.Outcome = result.Passed() ? TestOutcome.Passed : TestOutcome.Failed;
                 testResult.ErrorMessage += result.FailureMessages();
-
+                
+                Debug(debug, frameworkHandle, $"test passed: {result.Passed()} failureMessages: {result.FailureMessages()}, ErrorMessage: {testResult.ErrorMessage}");
+                
                 frameworkHandle.RecordResult(testResult);
             }
 
+        }
+
+        private static void Debug(bool debug, IFrameworkHandle frameworkHandle, string message)
+        {
+            if(debug)
+                frameworkHandle.SendMessage(TestMessageLevel.Informational, message);
         }
 
         private static TestSuites Run(tSQLtTestRunner testSession, TestCase test)
@@ -79,11 +98,11 @@ If you are running tests in visual studio choose ""Test-->Test Settings-->Select
 
         public void Cancel()
         {
-            m_cancelled = true;
+            _cancelled = true;
         }
 
         public static readonly Uri ExecutorUri = new Uri(Constants.ExecutorUriString);
-        private bool m_cancelled;
+        private bool _cancelled;
     }
 
     public static class Constants
