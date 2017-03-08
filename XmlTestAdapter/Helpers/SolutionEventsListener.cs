@@ -22,7 +22,7 @@ namespace tSQLtTestAdapter.Helpers
 
         [ImportingConstructor]
         public SolutionEventsListener([Import(typeof(SVsServiceProvider))]IServiceProvider serviceProvider)
-        {
+        {            
             ValidateArg.NotNull(serviceProvider, "serviceProvider");
             this.solution = serviceProvider.GetService(typeof(SVsSolution)) as IVsSolution;
         }

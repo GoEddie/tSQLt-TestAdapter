@@ -13,10 +13,13 @@ namespace tSQLtTestAdapter
         private ITestContainerDiscoverer discoverer;
         public tSQLtTestContainer(ITestContainerDiscoverer discoverer, string source, Uri executorUri)
             :this(discoverer, source, executorUri, Enumerable.Empty<Guid>())
-        {}
+        {
+          
+        }
 
         public tSQLtTestContainer(ITestContainerDiscoverer discoverer, string source, Uri executorUri, IEnumerable<Guid> debugEngines)
         {
+            
             this.Source = source;
             this.ExecutorUri = executorUri;
             this.DebugEngines = debugEngines;

@@ -13,7 +13,7 @@ namespace tSQLtTestAdapter.Helpers
         private class FileWatcherInfo
         {
             public FileWatcherInfo(FileSystemWatcher watcher)
-            {
+            {                
                 Watcher = watcher;
                 LastEventTime = DateTime.MinValue;
             }
@@ -27,7 +27,7 @@ namespace tSQLtTestAdapter.Helpers
 
         public TestFilesUpdateWatcher()
         {
-            fileWatchers = new Dictionary<string, FileWatcherInfo>(StringComparer.OrdinalIgnoreCase);
+            fileWatchers = new Dictionary<string, FileWatcherInfo>(StringComparer.OrdinalIgnoreCase);            
         }
 
         public void AddWatch(string path)

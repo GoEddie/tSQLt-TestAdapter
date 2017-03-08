@@ -1,15 +1,15 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio 15
+VisualStudioVersion = 15.0.26228.4
 MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".Test", ".Test", "{F47BAB61-C106-466B-9284-94FDB36CD6A5}"
+EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "tSQLtTestAdapter", "XmlTestAdapter\tSQLtTestAdapter.csproj", "{BC4B3BED-9241-4DD6-8070-A9B66DFC08C1}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "tSQLtTestAdapterVSIX", "XMLTestAdapterVSIX\tSQLtTestAdapterVSIX.csproj", "{D519F9EB-22F8-4054-A039-EDE0EFA6F025}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AgileSQLClub.tSQLtTestController", "AgileSQLClub.tSQLtTestController\AgileSQLClub.tSQLtTestController.csproj", "{35E9ACF7-2A97-4160-AB4E-42F4C4EA16CD}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".Test", ".Test", "{F47BAB61-C106-466B-9284-94FDB36CD6A5}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTests", "Test\UnitTests\UnitTests.csproj", "{46F2E446-C152-4A6B-934C-027B03DF048A}"
 EndProject

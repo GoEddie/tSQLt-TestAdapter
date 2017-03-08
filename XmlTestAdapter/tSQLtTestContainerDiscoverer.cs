@@ -36,7 +36,6 @@ namespace tSQLtTestAdapter
             ITestFilesUpdateWatcher testFilesUpdateWatcher,
             ITestFileAddRemoveListener testFilesAddRemoveListener)
         {
-            
             initialContainerSearch = true;
             cachedContainers = new List<ITestContainer>();
             this.serviceProvider = serviceProvider;

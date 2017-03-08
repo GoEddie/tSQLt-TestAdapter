@@ -6,7 +6,7 @@ using Microsoft.VisualStudio.TestPlatform.ObjectModel;
 using Microsoft.VisualStudio.TestPlatform.ObjectModel.Adapter;
 using Microsoft.VisualStudio.TestPlatform.ObjectModel.Logging;
 using tSQLtTestAdapter.Helpers;
-
+using System.Diagnostics;
 namespace tSQLtTestAdapter
 {
     [DefaultExecutorUri(Constants.ExecutorUriString)]
@@ -22,6 +22,7 @@ namespace tSQLtTestAdapter
 
         public void DiscoverTests(IEnumerable<string> sources, IDiscoveryContext discoveryContext, IMessageLogger logger, ITestCaseDiscoverySink discoverySink)
         {
+            
             var settings = new RunSettings(discoveryContext.RunSettings);
             _logger = logger;
 
