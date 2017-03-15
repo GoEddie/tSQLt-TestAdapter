@@ -106,6 +106,7 @@
     <Compile Include="Helpers\TestFileChangedEventArgs.cs" />
     <Compile Include="Helpers\TestFilesUpdateWatcher.cs" />
     <Compile Include="Helpers\VsSolutionHelper.cs" />
+    <Compile Include="IFileReader.cs" />
     <Compile Include="TestCache.cs" />
     <Compile Include="tSQLtTestContainer.cs" />
     <Compile Include="tSQLtTestContainerDiscoverer.cs" />

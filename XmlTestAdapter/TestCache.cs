@@ -12,16 +12,28 @@ namespace tSQLtTestAdapter
         private readonly Dictionary<string, DateTime> _dateCache = new Dictionary<string, DateTime>();
         private bool _haveChanges = true;
         private ScanResults _results = new ScanResults();
-        private readonly FileScanner _scanner = new FileScanner(new TSql130Parser(false));
+        private readonly FileScanner _scanner;
         private readonly List<TestClass> _tests = new List<TestClass>();
+        private readonly IFileReader _fileReader;
+        public TestCache()
+        {
+            _scanner = new FileScanner(new TSql130Parser(false));
+            _fileReader = new FileReader();
+        }
+
+        public TestCache(FileScanner probablyAMock, IFileReader anotherMock)
+        {
+            _scanner = probablyAMock;
+            _fileReader = anotherMock;
+        }
 
 
         public void AddPath(string path)
         {
-            var date = File.GetLastWriteTimeUtc(path);
+            var date = _fileReader.GetLastWriteTimeUtc(path);
             if (!_dateCache.ContainsKey(path) || date <= _dateCache[path])
             {
-                _results = _scanner.ScanCode(File.ReadAllText(path), _results, path);
+                _results = _scanner.ScanCode(_fileReader.ReadAll(path), _results, path);
                 _haveChanges = true;
             }
         }
@@ -32,14 +44,21 @@ namespace tSQLtTestAdapter
             {
                 return _tests;
             }
-
-            var classes = new List<TestClass>();
             
-            var foundClasses =
+            var foundClasses = new List<SqlSchema>();
+
+            foreach (var clazz in 
                 _results.FoundClasses.Where(
                     p =>
                         _results.FoundPotentialTests.Any(
-                            e => string.Equals(p.Name, e.Name.Schema, StringComparison.OrdinalIgnoreCase)));
+                            e => string.Equals(p.Name, e.Name.Schema, StringComparison.OrdinalIgnoreCase))))
+            {
+                if (foundClasses.All(p => p.Name != clazz.Name))
+                {
+                    foundClasses.Add(clazz);
+                }
+
+            }
 
             var foundTests =
                 _results.FoundPotentialTests.Where(
@@ -54,7 +73,7 @@ namespace tSQLtTestAdapter
                 var testClass = new TestClass();
                 testClass.Name = cls.Name;
                 testClass.Path = cls.Path;
-                //testClass.Tests =
+                
                 foreach (var test in foundTests.Where(p => string.Equals(p.Name.Schema, cls.Name, StringComparison.OrdinalIgnoreCase)))
                 {
                     testClass.Tests.Add(new Test {Name = test.Name.Object, Path = test.Path, Line = test.StartLine});
@@ -68,6 +87,25 @@ namespace tSQLtTestAdapter
             _haveChanges = false;
 
             return _tests;
+        }
+    }
+
+    public class FileReader : IFileReader
+    {
+        public FileReader()
+        {
+            
+        }
+
+
+        public virtual string ReadAll(string path)
+        {
+            return File.ReadAllText(path);
+        }
+
+        public virtual DateTime GetLastWriteTimeUtc(string path)
+        {
+            return File.GetLastWriteTimeUtc(path);
         }
     }
 }
