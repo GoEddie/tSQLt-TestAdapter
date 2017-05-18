@@ -1,13 +1,15 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using Microsoft.VisualStudio;
 using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
-using Microsoft.VisualStudio.TestPlatform.ObjectModel;
+
 
 namespace tSQLtTestAdapter.Helpers
 {
-	[Export(typeof(ISolutionEventsListener))]
+  
+    [Export(typeof(ISolutionEventsListener))]
     public class SolutionEventsListener : IVsSolutionEvents, ISolutionEventsListener
     {
         private readonly IVsSolution solution;
@@ -23,7 +25,8 @@ namespace tSQLtTestAdapter.Helpers
         [ImportingConstructor]
         public SolutionEventsListener([Import(typeof(SVsServiceProvider))]IServiceProvider serviceProvider)
         {
-            ValidateArg.NotNull(serviceProvider, "serviceProvider");
+            //Has been made internal in 2017 agghhhhh!
+//            ValidateArg.NotNull(serviceProvider, "serviceProvider");
             this.solution = serviceProvider.GetService(typeof(SVsSolution)) as IVsSolution;
         }
 

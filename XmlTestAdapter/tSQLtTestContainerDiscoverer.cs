@@ -9,6 +9,20 @@ using Microsoft.VisualStudio.Shell.Interop;
 using Microsoft.VisualStudio.TestWindow.Extensibility;
 using tSQLtTestAdapter.Helpers;
 
+/*
+ * I *think* I need this because the tests are not in a dll or exe - to enumerate tests in a diffrent file format needs 
+ *  this, as per bruno's semi-cryptic comment on "https://blogs.msdn.microsoft.com/bhuvaneshwari/2012/03/13/authoring-a-new-visual-studio-unit-test-adapter/"
+ *  
+ *  BrunoLM
+        August 22, 2013 at 12:43 pm
+        For non .exe and .dll you need these interfaces as well ITestContainerDiscoverer and ITestContainer
+
+        Example
+
+        github.com/…/TSTestExtension
+ 
+ */
+
 namespace tSQLtTestAdapter
 {
     [Export(typeof(ITestContainerDiscoverer))]

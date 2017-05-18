@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.IO;
 using System.Windows.Forms;
-using Microsoft.VisualStudio.TestPlatform.ObjectModel;
 
 namespace tSQLtTestAdapter.Helpers
 {
@@ -32,7 +31,7 @@ namespace tSQLtTestAdapter.Helpers
 
         public void AddWatch(string path)
         {
-            ValidateArg.NotNullOrEmpty(path, "path");
+            //ValidateArg.NotNullOrEmpty(path, "path");
 
             if (!String.IsNullOrEmpty(path))
             {
@@ -63,7 +62,7 @@ namespace tSQLtTestAdapter.Helpers
 
         public void RemoveWatch(string path)
         {
-            ValidateArg.NotNullOrEmpty(path, "path");
+            //ValidateArg.NotNullOrEmpty(path, "path");
 
             if (!String.IsNullOrEmpty(path))
             {

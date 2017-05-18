@@ -10,12 +10,17 @@ namespace AgileSQLClub.tSQLtTestController
     {
         private readonly TSqlParser _parser;
 
+        public FileScanner()
+        {
+            _parser = new TSql130Parser(true);
+        }
+
         public FileScanner(TSqlParser parser)
         {
             _parser = parser;
         }
 
-        public ScanResults ScanCode(string code, ScanResults results, string path)
+        public virtual ScanResults ScanCode(string code, ScanResults results, string path)
         {
             var batches = code.Split(new[] {"\r\nGO\r\n", "\nGO\n"}, StringSplitOptions.None);
             var offset = 0;

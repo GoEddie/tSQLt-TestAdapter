@@ -3,7 +3,7 @@ using System.ComponentModel.Composition;
 using Microsoft.VisualStudio;
 using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
-using Microsoft.VisualStudio.TestPlatform.ObjectModel;
+
 
 namespace tSQLtTestAdapter.Helpers
 {
@@ -18,7 +18,7 @@ namespace tSQLtTestAdapter.Helpers
         [ImportingConstructor]
         public TestFileAddRemoveListener([Import(typeof(SVsServiceProvider))] IServiceProvider serviceProvider)
         {
-            ValidateArg.NotNull(serviceProvider, "serviceProvider");
+           // ValidateArg.NotNull(serviceProvider, "serviceProvider");
 
             projectDocTracker = serviceProvider.GetService(typeof(SVsTrackProjectDocuments)) as IVsTrackProjectDocuments2;
         }
