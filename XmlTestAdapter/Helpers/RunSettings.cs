@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Xml.Linq;
 using Microsoft.VisualStudio.TestPlatform.ObjectModel.Adapter;
 
+
 namespace tSQLtTestAdapter.Helpers
 {
     class RunSettings
