@@ -17,6 +17,7 @@ namespace tSQLtTestAdapter
         private static readonly TestCache _tests = new TestCache();
 
         private static readonly List<Regex> _includePaths = new List<Regex>();
+        
 
         public void DiscoverTests(IEnumerable<string> sources, IDiscoveryContext discoveryContext, IMessageLogger logger, ITestCaseDiscoverySink discoverySink)
         {
@@ -29,7 +30,7 @@ namespace tSQLtTestAdapter
             logger.SendMessage(TestMessageLevel.Informational, "tSQLt Test Adapter, searching for tests...");
             
             var includePath = new RunSettings(discoveryContext.RunSettings).GetSetting("IncludePath");
-            SetPathFilter(includePath);
+            SetPathFilter(includePath, logger);
 
             lock (_lock)
             {
@@ -42,23 +43,31 @@ namespace tSQLtTestAdapter
                 logger.SendMessage(TestMessageLevel.Informational, "tSQLt Test Adapter, searching for tests...done - none found");
         }
 
-        public static void SetPathFilter(string includePath)
+        public static void SetPathFilter(string includePath, IMessageLogger logger)
         {
-            _includePaths.Clear();
-
-            if (!string.IsNullOrEmpty(includePath))
+            try
             {
-                if (includePath.IndexOf(";", StringComparison.Ordinal) >= 0)
+                _includePaths.Clear();
+
+                if (!string.IsNullOrEmpty(includePath))
                 {
-                    foreach (var part in includePath.Split(';'))
+                    if (includePath.IndexOf(";", StringComparison.Ordinal) >= 0)
                     {
-                        _includePaths.Add(new Regex(part));
+                        foreach (var part in includePath.Split(';'))
+                        {
+                            logger.SendMessage(TestMessageLevel.Informational, string.Format("tSQLt Test Adapter, adding filter...- {0}", part));
+                            _includePaths.Add(new Regex(part));
+                        }
+                    }
+                    else
+                    {
+                        logger.SendMessage(TestMessageLevel.Informational, string.Format("tSQLt Test Adapter, adding filter...- {0}", includePath));
+                        _includePaths.Add(new Regex(includePath));
                     }
                 }
-                else
-                {
-                    _includePaths.Add(new Regex(includePath));
-                }
+            }catch(Exception e)
+            {
+                logger.SendMessage(TestMessageLevel.Informational, string.Format("tSQLt Test Adapter, *ERROR* adding filter...- {0}", includePath));
             }
         }
 

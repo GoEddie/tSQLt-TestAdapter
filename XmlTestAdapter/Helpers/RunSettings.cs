@@ -16,7 +16,7 @@ namespace tSQLtTestAdapter.Helpers
         public RunSettings(IRunSettings runSettings)
         {
 
-            if (String.IsNullOrEmpty(runSettings.SettingsXml))
+            if (runSettings == null || runSettings.SettingsXml == null || String.IsNullOrEmpty(runSettings.SettingsXml))
             {
                 return;
             }

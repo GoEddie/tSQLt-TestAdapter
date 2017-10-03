@@ -16,7 +16,7 @@ namespace tSQLtTestAdapter
     {
         public void RunTests(IEnumerable<string> sources, IRunContext runContext, IFrameworkHandle frameworkHandle)
         {
-            XmlTestDiscoverer.SetPathFilter(new RunSettings(runContext.RunSettings).GetSetting("IncludePath"));
+            XmlTestDiscoverer.SetPathFilter(new RunSettings(runContext.RunSettings).GetSetting("IncludePath"), frameworkHandle);
             IEnumerable<TestCase> tests = XmlTestDiscoverer.GetTests(sources, null);
             RunTests(tests, runContext, frameworkHandle);
         }
@@ -71,7 +71,7 @@ If you are running tests in visual studio choose ""Test-->Test Settings-->Select
 
         private static TestSuites Run(tSQLtTestRunner testSession, TestCase test)
         {
-            if(test.DisplayName.Contains("."))
+            if(test != null && test.DisplayName != null && test.DisplayName.Contains("."))
                 return testSession.Run(test.DisplayName.Split('.')[0], test.DisplayName.Split('.')[1]);
             return null;
         }
