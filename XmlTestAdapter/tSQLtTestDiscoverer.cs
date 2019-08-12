@@ -84,13 +84,13 @@ namespace tSQLtTestAdapter
                 }
 
                 var testInCode = _tests.GetTests();
-
+                
                 foreach (var testClass in testInCode)
                 {
                     foreach (var test in testClass.Tests)
                     {
-                        var testCase = new TestCase(string.Format("{0}.{1}", testClass.Name, test.Name), tSQLtTestExecutor.ExecutorUri, test.Path);
-
+                        var testCase = new TestCase(string.Format("tSQLt.{0}.{1}", testClass.Name, test.Name), tSQLtTestExecutor.ExecutorUri, test.Path);
+                        
 
                         testCase.LineNumber = test.Line;
                         testCase.CodeFilePath = test.Path;
@@ -105,7 +105,7 @@ namespace tSQLtTestAdapter
 
                     if (discoverySink != null)
                     {
-                        var tcClass = new TestCase(testClass.Name + " TestClass", tSQLtTestExecutor.ExecutorUri, testClass.Path);
+                        var tcClass = new TestCase("tSQLt.Test Class." + testClass.Name, tSQLtTestExecutor.ExecutorUri, testClass.Path);
 
                         tcClass.CodeFilePath = testClass.Path;
 

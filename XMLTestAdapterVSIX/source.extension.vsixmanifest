@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <PackageManifest Version="2.0.0" xmlns="http://schemas.microsoft.com/developer/vsx-schema/2011" xmlns:d="http://schemas.microsoft.com/developer/vsx-schema-design/2011">
     <Metadata>
-        <Identity Id="AgileSQLClub.tSQLtTestAdapter16" Version="0.90" Language="en-US" Publisher="EdElliott" />
+        <Identity Id="AgileSQLClub.tSQLtTestAdapter16" Version="0.91" Language="en-US" Publisher="Ed-Elliott" />
         <DisplayName>tSQLt Test Adapter for Visual Studio 2019</DisplayName>
         <Description xml:space="preserve">Unit Test Adapter for tSQLt Tests</Description>
         <MoreInfo>https://the.agilsql.club/projects/tSQLt-Test-Adapter</MoreInfo>

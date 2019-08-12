@@ -53,6 +53,7 @@ If you are running tests in visual studio choose ""Test-->Test Settings-->Select
                     break;
                
                 var testResult = new TestResult(test);
+                
                 var testSession = new tSQLtTestRunner(connectionString);
                 var result = Run(testSession, test);
 
@@ -71,7 +72,7 @@ If you are running tests in visual studio choose ""Test-->Test Settings-->Select
 
         private static TestSuites Run(tSQLtTestRunner testSession, TestCase test)
         {
-            if(test != null && test.DisplayName != null && test.DisplayName.Contains("."))
+            if (test != null && test.DisplayName != null && test.DisplayName.Contains("."))
                 return testSession.Run(test.DisplayName.Split('.')[0], test.DisplayName.Split('.')[1]);
             return null;
         }
@@ -88,7 +89,7 @@ If you are running tests in visual studio choose ""Test-->Test Settings-->Select
 
     public static class Constants
     {
-        public const string ExecutorUriString = "executor://tSQLtTestExecutor/v1";
+        public const string ExecutorUriString = "executor://tSQLtTestExecutor/v3";
         public const string FileExtension = ".sql";
 
     }
