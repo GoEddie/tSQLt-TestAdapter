@@ -1,10 +1,11 @@
 ---
 name: Custom issue template
-about: Describe this issue template's purpose here.
+about: Freeform fun
 title: ''
 labels: ''
 assignees: ''
 
 ---
 
-@GoEddie - include this otherwise i'll probably won't see it
+===
+Please at me @GoEddie so I receive a notification
