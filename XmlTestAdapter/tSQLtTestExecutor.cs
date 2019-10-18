@@ -14,13 +14,14 @@ namespace tSQLtTestAdapter
     [ExtensionUri(Constants.ExecutorUriString)]
     public class tSQLtTestExecutor : ITestExecutor
     {
+        
         public void RunTests(IEnumerable<string> sources, IRunContext runContext, IFrameworkHandle frameworkHandle)
         {
             XmlTestDiscoverer.SetPathFilter(new RunSettings(runContext.RunSettings).GetSetting("IncludePath"), frameworkHandle);
             IEnumerable<TestCase> tests = XmlTestDiscoverer.GetTests(sources, null);
             RunTests(tests, runContext, frameworkHandle);
         }
-
+        
         public void RunTests(IEnumerable<TestCase> tests, IRunContext runContext, IFrameworkHandle frameworkHandle)
         {
             m_cancelled = false;
@@ -44,7 +45,7 @@ If you are running tests in visual studio choose ""Test-->Test Settings-->Select
 
 ");
                 return;
-            }            
+            }
 
 
             foreach (TestCase test in tests)
@@ -73,7 +74,9 @@ If you are running tests in visual studio choose ""Test-->Test Settings-->Select
         private static TestSuites Run(tSQLtTestRunner testSession, TestCase test)
         {
             if (test != null && test.DisplayName != null && test.DisplayName.Contains("."))
-                return testSession.Run(test.DisplayName.Split('.')[0], test.DisplayName.Split('.')[1]);
+                return testSession.Run(test.DisplayName.Replace("Tests.tSQLt.", "").Split('.')[0], test.DisplayName.Replace("Tests.tSQLt.", "").Split('.')[1]);
+
+
             return null;
         }
 
@@ -89,7 +92,7 @@ If you are running tests in visual studio choose ""Test-->Test Settings-->Select
 
     public static class Constants
     {
-        public const string ExecutorUriString = "executor://tSQLtTestExecutor/v3";
+        public const string ExecutorUriString = "executor://tSQLtTestExecutor/v4";
         public const string FileExtension = ".sql";
 
     }

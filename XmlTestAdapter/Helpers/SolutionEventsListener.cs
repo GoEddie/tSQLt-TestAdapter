@@ -24,10 +24,8 @@ namespace tSQLtTestAdapter.Helpers
 
         [ImportingConstructor]
         public SolutionEventsListener([Import(typeof(SVsServiceProvider))]IServiceProvider serviceProvider)
-        {
-            //Has been made internal in 2017 agghhhhh!
-//            ValidateArg.NotNull(serviceProvider, "serviceProvider");
-            this.solution = serviceProvider.GetService(typeof(SVsSolution)) as IVsSolution;
+        {            
+            this.solution = serviceProvider.GetService(typeof(SVsSolution)) as IVsSolution;            
         }
 
         public void StartListeningForChanges()
@@ -37,7 +35,7 @@ namespace tSQLtTestAdapter.Helpers
                 int hr = this.solution.AdviseSolutionEvents(this, out cookie);
                 ErrorHandler.ThrowOnFailure(hr); // do nothing if this fails
             }
-        }
+        } 
 
         public void StopListeningForChanges()
         {

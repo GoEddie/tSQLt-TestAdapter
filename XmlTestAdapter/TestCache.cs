@@ -1,9 +1,11 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using AgileSQLClub.tSQLtTestController;
 using Microsoft.SqlServer.TransactSql.ScriptDom;
+using Microsoft.VisualStudio.TestPlatform.ObjectModel.Logging;
 
 namespace tSQLtTestAdapter
 {
@@ -38,7 +40,7 @@ namespace tSQLtTestAdapter
             }
         }
 
-        public List<TestClass> GetTests()
+        public List<TestClass> GetTests(IMessageLogger logger = null)
         {
             if (!_haveChanges)
             {
@@ -57,8 +59,8 @@ namespace tSQLtTestAdapter
                 {
                     foundClasses.Add(clazz);
                 }
-
             }
+           
 
             var foundTests =
                 _results.FoundPotentialTests.Where(

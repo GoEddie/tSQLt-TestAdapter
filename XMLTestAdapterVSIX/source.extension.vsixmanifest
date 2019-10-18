@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <PackageManifest Version="2.0.0" xmlns="http://schemas.microsoft.com/developer/vsx-schema/2011" xmlns:d="http://schemas.microsoft.com/developer/vsx-schema-design/2011">
     <Metadata>
-        <Identity Id="AgileSQLClub.tSQLtTestAdapter16" Version="0.91" Language="en-US" Publisher="Ed-Elliott" />
+        <Identity Id="AgileSQLClub.tSQLtTestAdapter16" Version="0.99" Language="en-US" Publisher="Ed-Elliott" />
         <DisplayName>tSQLt Test Adapter for Visual Studio 2019</DisplayName>
         <Description xml:space="preserve">Unit Test Adapter for tSQLt Tests</Description>
         <MoreInfo>https://the.agilsql.club/projects/tSQLt-Test-Adapter</MoreInfo>
@@ -12,7 +12,7 @@
 
         <InstallationTarget Version="[16.0,17.0)" Id="Microsoft.VisualStudio.Pro" />
         <InstallationTarget Version="[16.0,17.0)" Id="Microsoft.VisualStudio.Ultimate" />
-        <InstallationTarget Version="[16.0,17.0)" Id="Microsoft.VisualStudio.Community" />
+        <InstallationTarget Version="[16.0,18.0)" Id="Microsoft.VisualStudio.Community" />
         <InstallationTarget Version="[16.0,17.0)" Id="Microsoft.VisualStudio.Enterprise" />
     </Installation>
     <Dependencies>
@@ -24,6 +24,6 @@
         <Asset Type="Microsoft.VisualStudio.Assembly" d:Source="Project" d:ProjectName="AgileSQLClub.tSQLtTestController" Path="|AgileSQLClub.tSQLtTestController|" AssemblyName="|AgileSQLClub.tSQLtTestController;AssemblyName|" />
     </Assets>
     <Prerequisites>
-        <Prerequisite Id="Microsoft.VisualStudio.Component.CoreEditor" Version="[16.0,17.0)" />
+        <Prerequisite Id="Microsoft.VisualStudio.Component.CoreEditor" Version="[16.0,)" DisplayName="Visual Studio core editor" />
     </Prerequisites>
 </PackageManifest>
