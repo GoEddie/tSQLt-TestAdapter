@@ -1,0 +1,19 @@
+# Git LFS tracking for large binaries
+bin/win-x64/tSQLtRunner.exe filter=lfs diff=lfs merge=lfs -text
+bin/osx-x64/tSQLtRunner filter=lfs diff=lfs merge=lfs -text
+bin/osx-arm64/tSQLtRunner filter=lfs diff=lfs merge=lfs -text
+bin/linux-x64/tSQLtRunner filter=lfs diff=lfs merge=lfs -text
+
+# Text files should have LF line endings
+*.md text eol=lf
+*.json text eol=lf
+*.sh text eol=lf
+tSQLtRunner text eol=lf
+
+# Windows batch files should have CRLF
+*.cmd text eol=crlf
+
+# Binary files
+*.exe binary
+*.dll binary
+*.pdb binary

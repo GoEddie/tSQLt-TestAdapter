@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2013/05/nuspec.xsd">
+  <metadata>
+    <id>tSQLtVisualStudio2022.TestAdapter</id>
+      <version>2.1.3</version>
+    <title>tSQLt Test Adapter for Visual Studio 2022+</title>
+    <authors>Ed Elliott</authors>
+    <owners>Ed Elliott</owners>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <license type="expression">MIT</license>
+    <projectUrl>https://github.com/GoEddie/tSQLt-TestAdapter</projectUrl>
+    <description>Visual Studio Test Adapter for tSQLt - enables discovering and running tSQLt database unit tests directly from Visual Studio Test Explorer.</description>
+    <summary>Integrates tSQLt SQL Server unit tests with Visual Studio Test Explorer</summary>
+    <releaseNotes>Initial release - supports test discovery and execution for tSQLt tests in DACPAC projects.</releaseNotes>
+    <copyright>Copyright 2025</copyright>
+    <tags>tSQLt testing sqlserver database unittest visual-studio test-adapter dacpac</tags>
+  </metadata>
+  <files>
+    <!-- Readme -->
+    <file src="README.md" target="" />
+
+    <!-- Empty placeholder for lib folder to satisfy NuGet requirements -->
+    <file src="lib-placeholder.txt" target="lib\net472\_._" />
+
+    <!-- All DLLs from output folder (includes dependencies) -->
+    <file src="bin\Release\*.dll" target="build\net472\" />
+
+    <!-- Props file to ensure adapter is loaded -->
+    <file src="tSQLt.TestAdapter.props" target="build\net472\tSQLt.TestAdapter.props" />
+
+    <!-- Include in build output for older project styles -->
+    <file src="bin\Release\*.dll" target="build\_common\" />
+  </files>
+</package>

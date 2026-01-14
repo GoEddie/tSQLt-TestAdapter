@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<RunSettings>
+  <RunConfiguration>
+    <!-- Uncomment the line below and update the path if needed -->
+     <TestAdaptersPaths>C:\Users\edell\Desktop\TestAdapter\2.1.3\build\net472</TestAdaptersPaths> 
+  </RunConfiguration>
+  <tSQLt>
+    <!-- Optional: Uncomment and set to the root folder containing tests to speed up test discovery -->
+    <!-- Can be absolute path or relative to solution directory (e.g., DatabaseProject\Tests) -->
+     <TestFolder>example-ssdt-project\SSDTProject.UnitTests</TestFolder> 
+    <!-- Optional: Controls whether table output is captured in test results (defaults to true if not specified) -->
+    <!-- <CaptureTestOutput>false</CaptureTestOutput> -->
+    <DatabaseConnectionString>Data Source=(localdb)\unittesting;Initial Catalog=SSDTProject;Integrated Security=True;TrustServerCertificate=True;</DatabaseConnectionString>
+  </tSQLt>
+</RunSettings>
