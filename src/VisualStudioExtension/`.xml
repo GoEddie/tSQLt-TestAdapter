@@ -1,0 +1,239 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>tSQLtHelper</name>
+    </assembly>
+    <members>
+        <member name="T:SSDTExtensions.ApprovalDialog">
+            <summary>
+            Simple approval dialog for confirming deployment
+            </summary>
+        </member>
+        <member name="T:SSDTExtensions.DownloadCompleteDialog">
+            <summary>
+            Simple download-complete dialog styled like ApprovalDialog
+            </summary>
+        </member>
+        <member name="T:SSDTExtensions.QuickDeploySqlCommand">
+            <summary>
+            Command handler for Quick Deploy Sql
+            </summary>
+        </member>
+        <member name="F:SSDTExtensions.QuickDeploySqlCommand.EnableDiagnosticLogging">
+            <summary>
+            Enable diagnostic logging to the Build output window.
+            Set to true to troubleshoot menu visibility or command execution issues.
+            When enabled, you'll see "QuickDeploySql:" messages in View > Output > Build.
+            </summary>
+        </member>
+        <member name="F:SSDTExtensions.QuickDeploySqlCommand.CommandId">
+            <summary>
+            Command ID for Build menu.
+            </summary>
+        </member>
+        <member name="F:SSDTExtensions.QuickDeploySqlCommand.ContextCommandId">
+            <summary>
+            Command ID for Solution Explorer context menu.
+            </summary>
+        </member>
+        <member name="F:SSDTExtensions.QuickDeploySqlCommand.CommandSet">
+            <summary>
+            Command menu group (command set GUID).
+            </summary>
+        </member>
+        <member name="F:SSDTExtensions.QuickDeploySqlCommand.dontAskAgainForSession">
+            <summary>
+            Session flag to track if user selected "don't ask again"
+            </summary>
+        </member>
+        <member name="F:SSDTExtensions.QuickDeploySqlCommand.lastApprovedConnectionString">
+            <summary>
+            Stores the last approved connection string to detect changes
+            </summary>
+        </member>
+        <member name="F:SSDTExtensions.QuickDeploySqlCommand.package">
+            <summary>
+            VS Package that provides this command, not null.
+            </summary>
+        </member>
+        <member name="M:SSDTExtensions.QuickDeploySqlCommand.#ctor(Microsoft.VisualStudio.Shell.AsyncPackage,Microsoft.VisualStudio.Shell.OleMenuCommandService)">
+            <summary>
+            Initializes a new instance of the <see cref="T:SSDTExtensions.QuickDeploySqlCommand"/> class.
+            Adds our command handlers for menu (commands must exist in the command table file)
+            </summary>
+            <param name="package">Owner package, not null.</param>
+            <param name="commandService">Command service to add command to, not null.</param>
+        </member>
+        <member name="P:SSDTExtensions.QuickDeploySqlCommand.Instance">
+            <summary>
+            Gets the instance of the command.
+            </summary>
+        </member>
+        <member name="P:SSDTExtensions.QuickDeploySqlCommand.ServiceProvider">
+            <summary>
+            Gets the service provider from the owner package.
+            </summary>
+        </member>
+        <member name="M:SSDTExtensions.QuickDeploySqlCommand.InitializeAsync(Microsoft.VisualStudio.Shell.AsyncPackage)">
+            <summary>
+            Initializes the singleton instance of the command.
+            </summary>
+            <param name="package">Owner package, not null.</param>
+        </member>
+        <member name="M:SSDTExtensions.QuickDeploySqlCommand.SolutionContainsSsdtProject">
+            <summary>
+            Checks if the current solution contains an SSDT project (.sqlproj).
+            </summary>
+            <returns>True if an SSDT project exists in the solution.</returns>
+        </member>
+        <member name="M:SSDTExtensions.QuickDeploySqlCommand.CheckProjectAndChildren(EnvDTE.Project)">
+            <summary>
+            Recursively checks a project and its children for SSDT projects.
+            Handles solution folders.
+            </summary>
+        </member>
+        <member name="M:SSDTExtensions.QuickDeploySqlCommand.OnBeforeQueryStatus(System.Object,System.EventArgs)">
+            <summary>
+            Called to update the command status before the menu is displayed.
+            This is where we check if the active document is a .sql file.
+            </summary>
+            <param name="sender">Event sender.</param>
+            <param name="e">Event args.</param>
+        </member>
+        <member name="M:SSDTExtensions.QuickDeploySqlCommand.OnBeforeQueryStatusContext(System.Object,System.EventArgs)">
+            <summary>
+            Called to update the command status for Solution Explorer context menu.
+            This checks if the selected item in Solution Explorer is a .sql file.
+            </summary>
+            <param name="sender">Event sender.</param>
+            <param name="e">Event args.</param>
+        </member>
+        <member name="M:SSDTExtensions.QuickDeploySqlCommand.Execute(System.Object,System.EventArgs)">
+            <summary>
+            This function is the callback used to execute the command when the menu item is clicked.
+            See the constructor to see how the menu item is associated with this function using
+            OleMenuCommandService service and MenuCommand class.
+            </summary>
+            <param name="sender">Event sender.</param>
+            <param name="e">Event args.</param>
+        </member>
+        <member name="M:SSDTExtensions.QuickDeploySqlCommand.GetRunSettingsFilePath">
+            <summary>
+            Gets the path to the active runsettings file configured in Visual Studio.
+            </summary>
+            <returns>The path to the runsettings file, or null if not configured.</returns>
+        </member>
+        <member name="M:SSDTExtensions.QuickDeploySqlCommand.GetConnectionStringFromRunSettings(System.String)">
+            <summary>
+            Parses the runsettings file to extract the tSQLt DatabaseConnectionString.
+            </summary>
+            <param name="runSettingsPath">Path to the runsettings file.</param>
+            <returns>The database connection string, or null if not found.</returns>
+        </member>
+        <member name="M:SSDTExtensions.QuickDeploySqlCommand.SplitIntoBatches(System.String)">
+            <summary>
+            Splits SQL script into batches by splitting on GO statements
+            </summary>
+            <param name="sqlScript">The complete SQL script</param>
+            <returns>List of SQL batches</returns>
+        </member>
+        <member name="M:SSDTExtensions.QuickDeploySqlCommand.ConvertCreateToCreateOrAlter(System.String)">
+            <summary>
+            Converts CREATE PROCEDURE statements to CREATE OR ALTER using TSqlScriptDom
+            </summary>
+            <param name="batch">SQL batch to process</param>
+            <returns>Modified SQL batch</returns>
+        </member>
+        <member name="T:SSDTExtensions.QuickDeploySqlCommand.CreateProcedureVisitor">
+            <summary>
+            Custom visitor to find CREATE PROCEDURE statements
+            </summary>
+        </member>
+        <member name="M:SSDTExtensions.QuickDeploySqlCommand.ExecuteSqlBatchesAsync(System.String,System.Collections.Generic.List{System.String})">
+            <summary>
+            Executes SQL batches against the database asynchronously
+            </summary>
+            <param name="connectionString">Database connection string</param>
+            <param name="batches">SQL batches to execute</param>
+        </member>
+        <member name="M:SSDTExtensions.QuickDeploySqlCommand.GetActiveFilePath">
+            <summary>
+            Gets the path of the currently active SQL file
+            </summary>
+            <returns>Path to the active SQL file, or null if none</returns>
+        </member>
+        <member name="M:SSDTExtensions.QuickDeploySqlCommand.CreateDefaultRunSettingsFile">
+            <summary>
+            Creates a default tSQLt.runsettings file in the solution directory
+            </summary>
+            <returns>Path to the created file, or null if failed</returns>
+        </member>
+        <member name="M:SSDTExtensions.QuickDeploySqlCommand.WriteToOutputWindow(System.String)">
+            <summary>
+            Writes a message to the Visual Studio Build output window (only if diagnostic logging is enabled)
+            </summary>
+            <param name="message">Message to write</param>
+        </member>
+        <member name="M:SSDTExtensions.QuickDeploySqlCommand.WriteUserMessage(System.String)">
+            <summary>
+            Writes a user-facing message to the Visual Studio Build output window (always enabled)
+            </summary>
+            <param name="message">Message to write</param>
+        </member>
+        <member name="M:SSDTExtensions.QuickDeploySqlCommand.QuickDeploySql">
+            <summary>
+            Your custom Quick Deploy Sql method
+            </summary>
+        </member>
+        <member name="T:SSDTExtensions.SqlObjectNameExtractor">
+            <summary>
+            Extracts object names from SQL batches using TSqlScriptDom parser
+            </summary>
+        </member>
+        <member name="M:SSDTExtensions.SqlObjectNameExtractor.ExtractObjectNames(System.Collections.Generic.List{System.String})">
+            <summary>
+            Extracts object names from SQL batches
+            </summary>
+            <param name="batches">SQL batches to parse</param>
+            <returns>List of object names</returns>
+        </member>
+        <member name="T:SSDTExtensions.SqlObjectNameExtractor.ObjectNameVisitor">
+            <summary>
+            Custom visitor to extract object names from CREATE/ALTER statements
+            </summary>
+        </member>
+        <member name="T:SSDTExtensions.SSDTExtensionsPackage">
+            <summary>
+            This is the class that implements the package exposed by this assembly.
+            </summary>
+            <remarks>
+            <para>
+            The minimum requirement for a class to be considered a valid package for Visual Studio
+            is to implement the IVsPackage interface and register itself with the shell.
+            This package uses the helper classes defined inside the Managed Package Framework (MPF)
+            to do it: it derives from the Package class that provides the implementation of the
+            IVsPackage interface and uses the registration attributes defined in the framework to
+            register itself and its components with the shell. These attributes tell the pkgdef creation
+            utility what data to put into .pkgdef file.
+            </para>
+            <para>
+            To get loaded into VS, the package must be referred by &lt;Asset Type="Microsoft.VisualStudio.VsPackage" ...&gt; in .vsixmanifest file.
+            </para>
+            </remarks>
+        </member>
+        <member name="F:SSDTExtensions.SSDTExtensionsPackage.PackageGuidString">
+            <summary>
+            SSDTExtensionsPackage GUID string.
+            </summary>
+        </member>
+        <member name="M:SSDTExtensions.SSDTExtensionsPackage.InitializeAsync(System.Threading.CancellationToken,System.IProgress{Microsoft.VisualStudio.Shell.ServiceProgressData})">
+            <summary>
+            Initialization of the package; this method is called right after the package is sited, so this is the place
+            where you can put all the initialization code that rely on services provided by VisualStudio.
+            </summary>
+            <param name="cancellationToken">A cancellation token to monitor for initialization cancellation, which can occur when VS is shutting down.</param>
+            <param name="progress">A provider for progress updates.</param>
+            <returns>A task representing the async work of package initialization, or an already completed task if there is none. Do not return null from this method.</returns>
+        </member>
+    </members>
+</doc>

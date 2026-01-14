@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CommandTable xmlns="http://schemas.microsoft.com/VisualStudio/2005-10-18/CommandTable" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+  <Extern href="stdidcmd.h"/>
+  <Extern href="vsshlids.h"/>
+
+  <Commands package="guidSSDTExtensionsPackage">
+    <Groups>
+      <Group guid="guidSSDTExtensionsPackageCmdSet" id="MyMenuGroup" priority="0x0600">
+        <Parent guid="guidSHLMainMenu" id="IDM_VS_MENU_BUILD"/>
+      </Group>
+      <Group guid="guidSSDTExtensionsPackageCmdSet" id="SolutionExplorerGroup" priority="0x0600">
+        <Parent guid="guidSHLMainMenu" id="IDM_VS_CTXT_ITEMNODE"/>
+      </Group>
+      <Group guid="guidSSDTExtensionsPackageCmdSet" id="ExtensionsMenuGroup" priority="0x0600">
+        <Parent guid="guidSHLMainMenu" id="IDM_VS_MENU_EXTENSIONS"/>
+      </Group>
+    </Groups>
+
+    <Buttons>
+      <Button guid="guidSSDTExtensionsPackageCmdSet" id="QuickDeploySqlCommandId" priority="0x0100" type="Button">
+        <Parent guid="guidSSDTExtensionsPackageCmdSet" id="MyMenuGroup" />
+        <Icon guid="guidImages" id="bmpPic1" />
+        <CommandFlag>DefaultInvisible</CommandFlag>
+        <CommandFlag>DynamicVisibility</CommandFlag>
+        <CommandFlag>TextChanges</CommandFlag>
+        <CommandFlag>AllowParams</CommandFlag>
+        <Strings>
+          <ButtonText>Quick Deploy Sql</ButtonText>
+        </Strings>
+      </Button>
+      <Button guid="guidSSDTExtensionsPackageCmdSet" id="QuickDeploySqlContextCommandId" priority="0x0100" type="Button">
+        <Parent guid="guidSSDTExtensionsPackageCmdSet" id="SolutionExplorerGroup" />
+        <Icon guid="guidImages" id="bmpPic1" />
+        <CommandFlag>DefaultInvisible</CommandFlag>
+        <CommandFlag>DynamicVisibility</CommandFlag>
+        <Strings>
+          <ButtonText>Quick Deploy Sql</ButtonText>
+        </Strings>
+      </Button>
+      <Button guid="guidSSDTExtensionsPackageCmdSet" id="DownloadTestAdapterCommandId" priority="0x0100" type="Button">
+        <Parent guid="guidSSDTExtensionsPackageCmdSet" id="ExtensionsMenuGroup" />
+        <Strings>
+          <ButtonText>SSDT: Download Test Adapter</ButtonText>
+        </Strings>
+      </Button>
+      <Button guid="guidSSDTExtensionsPackageCmdSet" id="UpdateRunSettingsCommandId" priority="0x0200" type="Button">
+        <Parent guid="guidSSDTExtensionsPackageCmdSet" id="ExtensionsMenuGroup" />
+        <Strings>
+          <ButtonText>SSDT: Update RunSettings</ButtonText>
+        </Strings>
+      </Button>
+    </Buttons>
+
+    <Bitmaps>
+      <Bitmap guid="guidImages" href="Resources\QuickDeploySqlCommand.png" usedList="bmpPic1"/>
+    </Bitmaps>
+  </Commands>
+
+  <KeyBindings>
+    <KeyBinding guid="guidSSDTExtensionsPackageCmdSet" id="QuickDeploySqlCommandId"
+                editor="guidVSStd97"
+                key1="Q" mod1="Control Shift" />
+  </KeyBindings>
+
+  <Symbols>
+    <GuidSymbol name="guidSSDTExtensionsPackage" value="{453f755b-4099-4c5e-8cda-5c3c7b245773}" />
+
+    <GuidSymbol name="guidSSDTExtensionsPackageCmdSet" value="{a5e8c7d3-6b4f-4a9c-8e3d-2f1b5c7d9e4a}">
+      <IDSymbol name="MyMenuGroup" value="0x1020" />
+      <IDSymbol name="SolutionExplorerGroup" value="0x1021" />
+      <IDSymbol name="ExtensionsMenuGroup" value="0x1022" />
+      <IDSymbol name="QuickDeploySqlCommandId" value="0x0100" />
+      <IDSymbol name="QuickDeploySqlContextCommandId" value="0x0101" />
+      <IDSymbol name="DownloadTestAdapterCommandId" value="0x0102" />
+      <IDSymbol name="UpdateRunSettingsCommandId" value="0x0103" />
+    </GuidSymbol>
+
+    <GuidSymbol name="guidImages" value="{8c1f9f46-2a7e-4b5d-9e3f-1c8d5f7b9d2a}" >
+      <IDSymbol name="bmpPic1" value="1" />
+    </GuidSymbol>
+  </Symbols>
+</CommandTable>

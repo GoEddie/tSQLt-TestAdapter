@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net472</TargetFramework>
+    <RootNamespace>tSQLt.TestAdapter</RootNamespace>
+    <AssemblyName>tSQLt.TestAdapter</AssemblyName>
+    <Deterministic>true</Deterministic>
+    <LangVersion>8</LangVersion>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <PackageId>tSQLtVisualStudio2022.TestAdapter</PackageId>
+    <Title>tSQLt Test Adapter for Visual Studio 2022+</Title>
+    <Version>2.1.1</Version>
+    <Authors>GOEddie</Authors>
+    <Description>A tSQLt Test Adapter for Visual Studio 2022+</Description>
+    <PackageProjectUrl>https://github.com/GoEddie/tSQLt-TestAdapter/</PackageProjectUrl>
+    <PackageIcon>Designer.png</PackageIcon>
+    <PackageTags>tSQLt, Test Adapter, GOEddie</PackageTags>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <NuspecFile>tSQLt.TestAdapter.nuspec</NuspecFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.IdentityModel.Protocols.OpenIdConnect" Version="8.15.0" />
+    <PackageReference Include="Microsoft.SqlServer.DacFx" Version="170.3.37-preview" />
+    <PackageReference Include="Microsoft.SqlServer.TransactSql.ScriptDom" Version="170.128.0" />
+    <PackageReference Include="Microsoft.TestPlatform.ObjectModel" Version="18.0.1" />
+    <PackageReference Include="Microsoft.Testing.Extensions.VSTestBridge" Version="2.0.2" />
+    <PackageReference Include="Microsoft.Testing.Platform.MSBuild" Version="2.0.2" />
+    <PackageReference Include="System.Text.Json" Version="10.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\..\..\..\..\Users\edell\Downloads\Designer.png">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+    <None Include="README.md" />
+    <None Include="tSQLt.TestAdapter.nuspec" />
+    <None Include="tSQLt.TestAdapter.props" />
+  </ItemGroup>
+
+</Project>
